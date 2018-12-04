@@ -1,0 +1,13 @@
+{
+  "name": "icebreaker",
+  "version": "1.0.0",
+  "description": "Icebreaker social messaging application",
+  "main": "index.js",
+  "repository": "https://github.com/dsmathews/icebreaker.git",
+  "author": "Pamela Anderson, Jessica McCormack, Joshua Jeng, David Blais, Scott Mathews",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.3.14"
+  }
+}
