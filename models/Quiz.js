@@ -2,13 +2,19 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 var QuizSchema = new Schema({
-    questions: {
+    
+    title: {
         type: String,
+        trim: true,
+        required: "Title is Required"
+    },
+    questions: {
+        type: Array,
         trim: true,
         required: "Question is Required"
     },
     answers:{
-            type: Boolean
+            type: Array
         },
     quizMaker: {
             type: Schema.Types.ObjectId,

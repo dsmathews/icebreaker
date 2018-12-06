@@ -34,6 +34,7 @@ module.exports = function (app) {
 
     app.post('/api/quiz', function (req, res) {
         const newEntry = {
+            title: req.body.title,
             questions: req.body.questions,
             answers: req.body.answers,
             quizMaker: req.body.quizMaker
