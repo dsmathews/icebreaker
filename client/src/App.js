@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as $ from 'axios';
 import ModalEntry from './components/ModalEntry';
 import ModalQuiz from './components/ModalQuiz';
-import ModalTestTaker from './components/ModalTestTaker';
+import FormOpenQuiz from './components/FormOpenQuiz'
 
 const testArray = [
   {
@@ -17,13 +17,6 @@ const testArray = [
         "Does 3 + 3 = 6?",
         "Does 4 + 4 = 8?",
         "Does 5 + 5 = 10?"
-      ],
-      answers: [
-        "true",
-        "true",
-        "true",
-        "true",
-        "true",
       ]
     }
   },
@@ -39,13 +32,6 @@ const testArray = [
         "Does 3 + 3 = 3?",
         "Does 4 + 4 = 4?",
         "Does 5 + 5 = 5?"
-      ],
-      answers: [
-        "false",
-        "false",
-        "false",
-        "false",
-        "false",
       ]
     }
   }
@@ -66,8 +52,7 @@ class App extends Component {
     //[NOTE]: AXIOS CALL TO GET THE USER IDS.
     //DEPENDING ON WHAT'S RETURNED, THE FOLLOWING FOR LOOP (JUST ISOLATES THE IDS
     //INTO THEIR OWN ARRAY) MAY NOT BE NEEDED. KEY IS TO ISOLATE THINGS IN STATE.
-
-    this.setState({otherUsers: testArray})
+    this.setState({ otherUsers: testArray })
   }
 
   render() {
@@ -80,9 +65,14 @@ class App extends Component {
           </div> :
           <div id="userPage">
             <ModalQuiz />
-
             <div id="otherQuizzes">
-            <ModalTestTaker />
+              {this.state.otherUsers.map((user) => (
+                <FormOpenQuiz
+                  username={user.username}
+                  title={user.quiz.title}
+                  questions={user.quiz.questions}
+                />
+              ))}
             </div>
           </div>}
       </div>
