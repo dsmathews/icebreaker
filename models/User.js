@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const uniqueValidator = require('mongoose-unique-validator');
+const bcrypt = require('bcryptjs');
+
+const hashPassword = function (user) {
+  user.password = bcrypt.hashSync(user.password, 12);
+}
 
 var UserSchema = new Schema({
   username: {
@@ -10,20 +16,56 @@ var UserSchema = new Schema({
   password: {
     type: String,
     trim: true,
-    required: "Password is Required"
+    unique: true,
+    required: "Password is Required",
+    match: [
+      /^[a-z0-9_-]+$/i,
+            'Username can only contain letters, numbers, _, and -'
+    ]
   },
   email: {
     type: String,
     trim: true,
-    required: "Email is Required"
+    unique: true,
+    required: "Email is Required",
+    match: [
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            'Invalid email'
+    ]
   },
-  name: {
-    type: String,
-    trim: true,
-    required: "Name is Required"
+   firstName: {
+     type: String,
+     trim: true,
+     match: [
+      /^[a-z'-]+$/i,
+      'Name can only include letters, \', and -'
+    ]
+
+    },
+    lastName: {
+      type: String,
+      trim: true,
+      match: [
+          /^[a-z'-]+$/i,
+          'Name can only include letters, \', and -'
+      ]
+  
   }
 });
 
+UserSchema.plugin(uniqueValidator);
+UserSchema.pre(`save`, function(next) {
+  var user = this;
+  //if (!user.isModified('password')) return next();
+  bcrypt.hash(user.password, 10)
+  .then(function(hashed) {
+      user.password = hashed;
+      next();        
+  })
+  .catch(function(err) {
+      res.json({status: "error", message: err});
+  });
+})
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
