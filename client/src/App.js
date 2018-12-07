@@ -53,7 +53,7 @@ const testArray = [
 
 class App extends Component {
   state = {
-    loggedIn: true,
+    loggedIn: false,
     otherUsers: []
   }
 
@@ -70,13 +70,19 @@ class App extends Component {
     this.setState({otherUsers: testArray})
   }
 
+  toggleLogin = () => {
+    this.setState({
+      loggedIn: !this.state.loggedIn
+    })
+  }
+
   render() {
     return (
 
       <div >
         {!this.state.loggedIn ?
           <div id="loginScreen">
-            <ModalEntry />
+            <ModalEntry toggleLogin={this.toggleLogin}/>
           </div> :
           <div id="userPage">
             <ModalQuiz />
