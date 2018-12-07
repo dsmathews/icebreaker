@@ -1,7 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import { Button, Modal, ModalBody, ModalFooter, Alert, Row, Input } from 'reactstrap';
-class ModalQuiz extends React.Component {
 
+class ModalQuiz extends React.Component {
 	state = {
 		modal: false,
 		title: '',
@@ -171,10 +172,13 @@ class ModalQuiz extends React.Component {
 			console.log(fullQuiz);
 			//[NOTE]: THIS IS WHERE THE AXIOS CALL GOES.
 
-			this.toggleModal();
-			this.setState({
-				index: 0
-			})
+			//axios.post('/api/quiz/', fullQuiz)
+			//.then(() => {
+				this.toggleModal();
+				this.setState({
+					index: 0
+				})
+			//})
 		}
 	}
 
