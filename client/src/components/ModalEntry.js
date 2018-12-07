@@ -72,7 +72,8 @@ class ModalEntry extends React.Component {
 		this.toggleModal();
 	}
 
-	login = () => {
+	login = (e) => {
+		e.preventDefault();
 		const loginData = {
 			email: this.state.email,
 			password: this.state.password1
@@ -83,13 +84,21 @@ class ModalEntry extends React.Component {
 			this.incompleteForm();
 		} else {
 			console.log(loginData);
-			//[NOTE]: THIS IS WHERE AXIOS GOES FOR THE LOGIN FUNCTION
-			// FOLLOW WITH .THEN TO RESET OTHER STUFF
-			this.setState({
-				email: '',
-				password: '',
+			axios.post("/api/login", loginData )
+			.then(resp => {
+				console.log(resp);
+				alert("Login was successful");
+				this.setState({
+					email: '',
+					password: '',
+				})
+				this.toggleModal();
+				this.props.toggleLogin();
 			})
-			this.toggleModal();
+			.catch(err=> {
+				alert("Email or Password is incorrect.")
+			})
+			
 		}
 	}
 
@@ -101,9 +110,8 @@ class ModalEntry extends React.Component {
 		this.toggleModal();
 	}
 
-	signUp = () => {
-
-
+	signUp = (e) => {
+e.preventDefault();
 		const data = {
 			firstName: this.state.firstName,
 			lastName: this.state.lastName,
@@ -111,7 +119,8 @@ class ModalEntry extends React.Component {
 			username: this.state.username,
 			password1: this.state.password1,
 			password2: this.state.password2,
-		}
+		};
+		console.log(data)
 
 		if (this.validation(data)) {
 			this.incompleteForm();
@@ -121,22 +130,21 @@ class ModalEntry extends React.Component {
 			const newUser = {
 				firstName: data.firstName,
 				lastName: data.lastName,
-				email: data.lastName,
+				email: data.email,
 				username: data.username,
 				password: data.password1
 			}
-			console.log(newUser);
-			// axios.post('/api/user', newUser)
-			// 	.then(() => {
-			// 		this.setState({
-			// 			firstName: '',
-			// 			lastName: '',
-			// 			username: '',
-			// 			password1: '',
-			// 			password2: '',
-			// 		})
-					this.toggleModal();
-				// });
+			console.log(newUser)
+			axios.post("/api/user", newUser)
+			.then(resp => {
+				console.log(resp);
+				alert("Thanks for Creating an account, Please Login.")
+				this.toggleModal();
+
+			})
+			.catch(err => {
+				alert('Fill out the entire form!')
+			})
 		}
 	}
 
