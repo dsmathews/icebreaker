@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Button, Modal, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import FormLogin from './FormLogin';
 import FormSignUp from './FormSignUp';
@@ -82,8 +83,8 @@ class ModalEntry extends React.Component {
 			this.incompleteForm();
 		} else {
 			console.log(loginData);
-			//[NOTE]: THIS IS WHERE AXIOS GOES.
-			//[NOTE]: WILL HAVE TO ADD 'EVENT' AND 'EVENT.PREVENTDEFAULT()' AS WELL
+			//[NOTE]: THIS IS WHERE AXIOS GOES FOR THE LOGIN FUNCTION
+			// FOLLOW WITH .THEN TO RESET OTHER STUFF
 			this.setState({
 				email: '',
 				password: '',
@@ -102,7 +103,8 @@ class ModalEntry extends React.Component {
 
 	signUp = () => {
 
-		const signUpData = {
+
+		const data = {
 			firstName: this.state.firstName,
 			lastName: this.state.lastName,
 			email: this.state.email,
@@ -111,24 +113,30 @@ class ModalEntry extends React.Component {
 			password2: this.state.password2,
 		}
 
-		if (this.validation(signUpData)) {
+		if (this.validation(data)) {
 			this.incompleteForm();
-		} else if (this.state.password1 !== this.state.password2) {
+		} else if (data.password1 !== data.password2) {
 			this.passwordMisMatch();
 		} else {
-			console.log(signUpData);
-			//[NOTE]: THIS IS WHERE AXIOS GOES.
-			//[NOTE]: WILL HAVE TO ADD 'EVENT' AND 'EVENT.PREVENTDEFAULT()' AS WELL
-
-			this.setState({
-				firstName: '',
-				lastName: '',
-				email: '',
-				username: '',
-				password1: '',
-				password2: '',
-			})
-			this.toggleModal();
+			const newUser = {
+				firstName: data.firstName,
+				lastName: data.lastName,
+				email: data.lastName,
+				username: data.username,
+				password: data.password1
+			}
+			console.log(newUser);
+			// axios.post('/api/user', newUser)
+			// 	.then(() => {
+			// 		this.setState({
+			// 			firstName: '',
+			// 			lastName: '',
+			// 			username: '',
+			// 			password1: '',
+			// 			password2: '',
+			// 		})
+					this.toggleModal();
+				// });
 		}
 	}
 
