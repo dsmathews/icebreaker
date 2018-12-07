@@ -36,3 +36,12 @@ html, body {
 	border-width:2px;
 	border-color:purple;
 }
+
+#singleQuiz{
+	width:300px;
+	background-color: darkgrey;
+	border-style:solid;
+	border-width:2px;
+	border-color:grey;
+	border-radius: 10px;
+}
