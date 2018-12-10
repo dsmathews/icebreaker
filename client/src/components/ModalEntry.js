@@ -94,6 +94,7 @@ class ModalEntry extends React.Component {
 				})
 				this.toggleModal();
 				this.props.toggleLogin();
+				localStorage.setItem("token", resp.data.token)
 			})
 			.catch(err=> {
 				alert("Email or Password is incorrect.")
@@ -132,7 +133,8 @@ e.preventDefault();
 				lastName: data.lastName,
 				email: data.email,
 				username: data.username,
-				password: data.password1
+				password: data.password1,
+				quizId: ""
 			}
 			console.log(newUser)
 			axios.post("/api/user", newUser)

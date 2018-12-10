@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Quiz = require('../models/Quiz');
 const Connection = require('../models/connection')
 var jwt = require('jsonwebtoken');
+const authWare = require("../middleware/authentication");
 
 module.exports = function (app) {
     app.get('/api/user', function (req, res) {
@@ -33,19 +34,24 @@ module.exports = function (app) {
             });
     });
 
-    app.post('/api/quiz', function (req, res) {
+    app.post('/api/quiz', authWare, function (req, res) {
         const userId = req.userId;
         console.log("Inside /api/quiz:", userId);
         const newEntry = {
             title: req.body.title,
             questions: req.body.questions,
             answers: req.body.answers,
-            quizMaker: req.body.quizMaker
+            quizMaker: userId
         }
 
+        let newQuiz;
         Quiz.create(newEntry)
             .then(function (dbQuiz) {
-                res.json(dbQuiz);
+                newQuiz = dbQuiz;
+                return User.findOneAndUpdate({ _id: dbQuiz.quizMaker}, {quizId: dbQuiz._id}, { new: true });
+            })
+            .then(function (updatedUser) {
+                res.json(newQuiz);
             })
             .catch(function (err) {
                 res.json(err);

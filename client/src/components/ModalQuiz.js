@@ -170,15 +170,20 @@ class ModalQuiz extends React.Component {
 			}
 
 			console.log(fullQuiz);
-			//[NOTE]: THIS IS WHERE THE AXIOS CALL GOES.
-
-			//axios.post('/api/quiz/', fullQuiz)
-			//.then(() => {
+			
+			const token = localStorage.getItem("token");
+			axios.post('/api/quiz/', fullQuiz, {
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			})
+			.then((res) => {
+				console.log(res);
 				this.toggleModal();
 				this.setState({
 					index: 0
 				})
-			//})
+			})
 		}
 	}
 
