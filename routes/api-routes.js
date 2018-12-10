@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Quiz = require('../models/Quiz');
 const Connection = require('../models/connection')
+var jwt = require('jsonwebtoken');
 
 module.exports = function (app) {
     app.get('/api/user', function (req, res) {
@@ -33,6 +34,8 @@ module.exports = function (app) {
     });
 
     app.post('/api/quiz', function (req, res) {
+        const userId = req.userId;
+        console.log("Inside /api/quiz:", userId);
         const newEntry = {
             title: req.body.title,
             questions: req.body.questions,
@@ -114,11 +117,8 @@ module.exports = function (app) {
     app.post('/api/login', function (req, res) {
         console.log(req.body, "this should be our user");
         User.findOne({
-
             email: req.body.email,
-
         }).then(function (user) {
-
             console.log(user, "this should be the user")
             if (!user || !user.validatePw(req.body.password)) {
                 return res.status(401).json({
@@ -135,15 +135,13 @@ module.exports = function (app) {
                     res.json({
                         token: token,
                         id: user._id,
-                    }).catch(err => {
-                        res.json({ err });
                     });
                 });
             }
 
         }).catch(function (err) {
             console.log(`error: ${err}`);
-            res.json({ error: err });
+            res.status(500).json({ error: err });
         });
     });
 

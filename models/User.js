@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcryptjs');
 
-const hashPassword = function (user) {
-  user.password = bcrypt.hashSync(user.password, 12);
-}
-
 var UserSchema = new Schema({
   username: {
     type: String,
@@ -63,9 +59,12 @@ UserSchema.pre(`save`, function(next) {
       next();        
   })
   .catch(function(err) {
-      res.json({status: "error", message: err});
+      console.log(err);
   });
-})
+});
+UserSchema.methods.validatePw = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
