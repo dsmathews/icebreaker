@@ -84,22 +84,28 @@ class ModalEntry extends React.Component {
 			this.incompleteForm();
 		} else {
 			console.log(loginData);
-			axios.post("/api/login", loginData )
-			.then(resp => {
-				console.log(resp);
-				alert("Login was successful");
-				this.setState({
-					email: '',
-					password: '',
+			axios.post("/api/login", loginData)
+				.then(resp => {
+					console.log(resp);
+					alert("Login was successful");
+					this.setState({
+						email: '',
+						password: '',
+					})
+					this.toggleModal();
+					localStorage.setItem("token", resp.data.token)
+					localStorage.setItem('userId', resp.data.id)
+					axios.get(`/api/user/${resp.data.id}`)
+					.then(resp => {
+						console.log('User Info: ', resp.data[0])
+						this.props.toggleLogin(resp.data[0]);
+					})
+					
 				})
-				this.toggleModal();
-				this.props.toggleLogin();
-				localStorage.setItem("token", resp.data.token)
-			})
-			.catch(err=> {
-				alert("Email or Password is incorrect.")
-			})
-			
+				.catch(err => {
+					alert("Email or Password is incorrect.")
+				})
+
 		}
 	}
 
@@ -112,7 +118,7 @@ class ModalEntry extends React.Component {
 	}
 
 	signUp = (e) => {
-e.preventDefault();
+		e.preventDefault();
 		const data = {
 			firstName: this.state.firstName,
 			lastName: this.state.lastName,
@@ -138,15 +144,15 @@ e.preventDefault();
 			}
 			console.log(newUser)
 			axios.post("/api/user", newUser)
-			.then(resp => {
-				console.log(resp);
-				alert("Thanks for Creating an account, Please Login.")
-				this.toggleModal();
+				.then(resp => {
+					console.log(resp);
+					alert("Thanks for Creating an account, Please Login.")
+					this.toggleModal();
 
-			})
-			.catch(err => {
-				alert('Fill out the entire form!')
-			})
+				})
+				.catch(err => {
+					alert('Fill out the entire form!')
+				})
 		}
 	}
 

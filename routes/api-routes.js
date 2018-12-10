@@ -43,14 +43,13 @@ module.exports = function (app) {
             answers: req.body.answers,
             quizMaker: userId
         }
-
         let newQuiz;
         Quiz.create(newEntry)
             .then(function (dbQuiz) {
-                newQuiz = dbQuiz;
+                newQuiz=dbQuiz;
                 return User.findOneAndUpdate({ _id: dbQuiz.quizMaker}, {quizId: dbQuiz._id}, { new: true });
             })
-            .then(function (updatedUser) {
+            .then(function () {
                 res.json(newQuiz);
             })
             .catch(function (err) {
@@ -75,10 +74,12 @@ module.exports = function (app) {
             });
     });
 
-    app.delete('/api/quiz/:id', function (req, res) {
+    app.delete('/api/quiz/:id', authWare, function (req, res) {
+        const userId = req.userId;
         Quiz.deleteOne({ _id: req.params.id })
             .then(function (data) {
-                res.json(data);
+                console.log(userId);
+                return User.findOneAndUpdate({ _id: userId}, {quizId: ''})
             })
             .catch(function (err) {
                 res.json(err);
@@ -131,13 +132,11 @@ module.exports = function (app) {
                     message: "Incorrect email or password."
                 })
             } else {
-
                 ;
-
                 jwt.sign({
                     email: user.email,
                     id: user._id
-                }, process.env.SK, { expiresIn: '30m' }, (err, token) => {
+                }, process.env.SECRET_KEY, { expiresIn: '30m' }, (err, token) => {
                     res.json({
                         token: token,
                         id: user._id,
@@ -155,26 +154,26 @@ module.exports = function (app) {
     // Request will contest email and password
     // After comparing with database using bcrypt decryption, response with jwt token
     // If error, response with error object
-    app.post(`/api/login`, (req, res) => {
-        User.findOne({ email: req.body.email })
-            .then(function (data) {
-                if (!data) {
-                    throw "No such user or bad request format"
-                } else {
-                    bcrypt.compare(req.body.password, data.password).then(function (res) {
-                        if (res) {
-                            console.log(req.body.password);
-                            console.log(": " + data.password);
-                        } else {
-                            throw "Wrong password";
-                        }
-                    })
-                }
-            })
-            .catch(function (err) {
-                res.json({ status: "error", message: err });
-            });
-    });
+    // app.post(`/api/login`, (req, res) => {
+    //     User.findOne({ email: req.body.email })
+    //         .then(function (data) {
+    //             if (!data) {
+    //                 throw "No such user or bad request format"
+    //             } else {
+    //                 bcrypt.compare(req.body.password, data.password).then(function (res) {
+    //                     if (res) {
+    //                         console.log(req.body.password);
+    //                         console.log(": " + data.password);
+    //                     } else {
+    //                         throw "Wrong password";
+    //                     }
+    //                 })
+    //             }
+    //         })
+    //         .catch(function (err) {
+    //             res.json({ status: "error", message: err });
+    //         });
+    // });
 
 
 
