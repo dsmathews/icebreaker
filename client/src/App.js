@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as $ from 'axios';
+import axios from 'axios';
 import ModalEntry from './components/ModalEntry';
 import ModalQuiz from './components/ModalQuiz';
 import FormOpenQuiz from './components/FormOpenQuiz'

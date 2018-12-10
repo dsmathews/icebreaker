@@ -46,6 +46,9 @@ var UserSchema = new Schema({
           'Name can only include letters, \', and -'
       ]
   
+  },
+  quizId: {
+    type: String
   }
 });
 
