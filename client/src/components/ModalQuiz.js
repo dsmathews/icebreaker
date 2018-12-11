@@ -5,6 +5,7 @@ import { Button, Modal, ModalBody, ModalFooter, Alert, Row, Input } from 'reacts
 class ModalQuiz extends React.Component {
 	state = {
 		modal: false,
+		modal2: false,
 		quizId: '',
 		title: '',
 		questions: [],
@@ -26,7 +27,7 @@ class ModalQuiz extends React.Component {
 
 	componentDidMount() {
 		console.log("Quiz ID", this.props.userInfo.quizId)
-		if (this.props.userInfo.quizId.length >0) {
+		if (this.props.userInfo.quizId.length > 0) {
 			axios.get(`/api/quiz/${this.props.userInfo.quizId}`)
 				.then(resp =>
 					this.setState({
@@ -69,6 +70,12 @@ class ModalQuiz extends React.Component {
 				color: 'danger',
 				message: "Oy! Finish yer quiz, ya cheeky wankah!"
 			}
+		})
+	}
+
+	toggleView = () => {
+		this.setState({
+			modal2: !this.state.modal2
 		})
 	}
 
@@ -211,7 +218,7 @@ class ModalQuiz extends React.Component {
 			headers: {
 				"Authorization": `Bearer ${token}`
 			}
-		}) .then (
+		}).then(
 			this.setState({
 				quizId: '',
 				answers: [],
@@ -223,10 +230,28 @@ class ModalQuiz extends React.Component {
 
 	render() {
 		return (
-			<div className = "quizBackground">
+			<div className="quizBackground">
 				<div>
-					{this.state.quizId ?
-						<Button color="primary" onClick={this.deleteQuiz}>Exterminate Quiz!</Button> : null}
+					{this.state.quizId ? <div>
+						<Button color="primary" onClick={this.deleteQuiz}>Exterminate Quiz!</Button>
+						<div>
+							<Button color="primary" onClick={this.toggleView}>Check it</Button> : null}
+							<Modal isOpen={this.state.modal2} toggle={this.toggleView}>
+							<ModalBody>
+									<h3>{this.state.title}</h3>
+									<div>{this.state.questions[0]}</div><div>{this.state.answers[0]}</div>
+									<div>{this.state.questions[1]}</div><div>{this.state.answers[1]}</div>
+									<div>{this.state.questions[2]}</div><div>{this.state.answers[2]}</div>
+									<div>{this.state.questions[3]}</div><div>{this.state.answers[3]}</div>
+									<div>{this.state.questions[4]}</div><div>{this.state.answers[4]}</div>
+								</ModalBody>
+								<ModalFooter>
+									<Button onClick={this.toggleView}>We Good</Button>
+								</ModalFooter>
+							</Modal>
+
+						</div>
+					</div> : null}
 					{(this.state.questions.length > 0 && this.state.questions.length < 5) ?
 						<Button color="primary" onClick={this.resumeCreating}>Continue!</Button> : null}
 					{this.state.questions.length === 0 ?
