@@ -52,12 +52,12 @@ module.exports = function (app) {
                 })
             } else {
 
-                console.log(user)
+                console.log(user) 
 
                 jwt.sign({
                     username: user.username,
                     id: user.id
-                }, process.env.SK, { expiresIn: '30m' }, (err, token) => {
+                }, process.env.SECRET_KEY, { expiresIn: '30m' }, (err, token) => {
                     res.json({
                         token: token,
                         id: user.id,

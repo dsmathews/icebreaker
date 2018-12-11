@@ -65,6 +65,12 @@ class ModalEntry extends React.Component {
 	}
 
 	//LOGIN SECTION
+
+	changeBackground = () => {
+		console.log("goodtimes") 
+		document.querySelector("#root").classList.add("black")	
+	}
+
 	loginModal = () => {
 		this.setState({
 			form: 'login'
@@ -94,8 +100,9 @@ class ModalEntry extends React.Component {
 				})
 				this.toggleModal();
 				this.props.toggleLogin();
+				this.changeBackground();
 			})
-			.catch(err=> {
+			.catch(err => {
 				alert("Email or Password is incorrect.")
 			})
 			
@@ -152,8 +159,13 @@ e.preventDefault();
 		return (
 			<div>
 				<div>
-					<Button color="primary" onClick={this.loginModal}>Login</Button>
-					<Button color="primary" onClick={this.signUpModal}>Sign Up</Button>
+					<h1>Ice Breakers</h1>
+					<p>Ice Breakers - Create and Take quizzes to find friends with similar interests and break the ice!</p>
+				</div>
+
+				<div>
+					<Button onClick={this.loginModal} className="login-btn">Login</Button>
+					<Button onClick={this.signUpModal} className="signup-btn">Sign Up</Button>
 				</div>
 
 				<Modal isOpen={this.state.modal} toggle={this.state.toggleModal}>
