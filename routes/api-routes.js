@@ -149,33 +149,4 @@ module.exports = function (app) {
             res.status(500).json({ error: err });
         });
     });
-
-    // Login the user
-    // Request will contest email and password
-    // After comparing with database using bcrypt decryption, response with jwt token
-    // If error, response with error object
-    // app.post(`/api/login`, (req, res) => {
-    //     User.findOne({ email: req.body.email })
-    //         .then(function (data) {
-    //             if (!data) {
-    //                 throw "No such user or bad request format"
-    //             } else {
-    //                 bcrypt.compare(req.body.password, data.password).then(function (res) {
-    //                     if (res) {
-    //                         console.log(req.body.password);
-    //                         console.log(": " + data.password);
-    //                     } else {
-    //                         throw "Wrong password";
-    //                     }
-    //                 })
-    //             }
-    //         })
-    //         .catch(function (err) {
-    //             res.json({ status: "error", message: err });
-    //         });
-    // });
-
-
-
-
 }

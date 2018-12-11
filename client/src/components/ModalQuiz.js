@@ -223,7 +223,7 @@ class ModalQuiz extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className = "quizBackground">
 				<div>
 					{this.state.quizId ?
 						<Button color="primary" onClick={this.deleteQuiz}>Exterminate Quiz!</Button> : null}
