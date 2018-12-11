@@ -101,7 +101,7 @@ class App extends Component {
 
     return (
 
-      <div >
+      <div className="animated fadeIn">
         {!this.state.loggedIn ?
           <div id="loginScreen">
             <ModalEntry toggleLogin={this.toggleLogin} />

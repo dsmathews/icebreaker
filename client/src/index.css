@@ -22,7 +22,7 @@ body {
   border: 1px solid grey;
   border-radius: 20px;
   background-color: white;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 .form-container h1 {
   padding: 10px;
@@ -159,7 +159,7 @@ body {
 .message-submit {
   width: 30%;
   background-color: grey;
-  color: white;
+  color: rgb(128, 236, 128);
   font-size: 16px;
   cursor: pointer;
   border-bottom-right-radius: 20px;

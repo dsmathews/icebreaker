@@ -15,6 +15,7 @@ import MessageList from './MessageList';
             this.addMessage = this.addMessage.bind(this);
         }
 
+
         componentDidMount() {
             const chatManager = new ChatManager({
                 instanceLocator: 'v1:us1:bad848ac-b37b-454a-adf0-385bbf3be71a',
@@ -58,10 +59,10 @@ import MessageList from './MessageList';
         }
         render() {
             return (
-                <div>
+                <div className="animated zoomIn delay-1s faster">
                     <h2 className="chat-header">Say Something!</h2>
                     <MessageList messages={this.state.messages} />
-                    <Input className="input-field" onSubmit={this.addMessage} />
+                    <Input className="input-field animated zoomIn " onSubmit={this.addMessage} />
                 </div>
             )
             }
