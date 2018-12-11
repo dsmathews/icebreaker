@@ -8,13 +8,14 @@ import ChatMessage from './components/ChatApp/ChatMessage';
 import Signup from './components/ChatApp/Signup';
 import ChatApp from './components/ChatApp/ChatApp';
 import { default as Chatkit } from '@pusher/chatkit-server';
+// import FormOpenQuiz from './components/FormOpenQuiz';
+import Navbar from './components/Navbar'
 
 //Initializes chat.
 const chatkit = new Chatkit({
   instanceLocator: "v1:us1:bad848ac-b37b-454a-adf0-385bbf3be71a",
   key: "005ed346-fba1-4e3e-b588-3449e0c4a68f:5cHTYoI8rxc1JPVqwx9D61cXdTzJbVucwKB48cMaPUw=",
 })
-
 
 class App extends Component {
   state = {
@@ -107,7 +108,8 @@ class App extends Component {
             <ModalEntry toggleLogin={this.toggleLogin} />
           </div> :
           <div id="userPage">
-            <ModalQuiz userInfo={this.state.userInfo} />
+          <Navbar />
+            <ModalQuiz userInfo={this.state.userInfo}/>
             <div id="otherQuizzes">
               {this.state.otherUsers.map((user) => (
                 this.state.userInfo._id === user.quizMaker._id ? null :
