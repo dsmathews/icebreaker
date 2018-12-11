@@ -35,6 +35,11 @@
 	width:400px;
 	height:800px;
 }
+/*navbar title: icebreakers*/
+.navbar-light .navbar-brand {
+	font-size: 28px;
+	color: black;
+}
 
 #otherQuizzes {
 	
@@ -63,7 +68,7 @@
 }
 
 .black {
-	background-image: url(./images/joyce-mccown-766501-unsplash.jpg) !important;
+	background-image: url(./images/roman-kraft-669711-unsplash.jpg) !important;
 	opacity: 0.5;
 }
 .signup-btn {
