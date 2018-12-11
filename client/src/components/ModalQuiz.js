@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Button, Modal, ModalBody, ModalFooter, Alert, Row, Input } from 'reactstrap';
 
+
 class ModalQuiz extends React.Component {
 	state = {
 		modal: false,
