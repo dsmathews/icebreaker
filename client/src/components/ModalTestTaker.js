@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, ModalBody, ModalFooter, Alert, Row, Input } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, Alert, Row } from 'reactstrap';
 
 class ModalTestTaker extends React.Component {
 	state = {
