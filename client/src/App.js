@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ModalEntry from './components/ModalEntry';
 import ModalQuiz from './components/ModalQuiz';
-import FormOpenQuiz from './components/FormOpenQuiz'
+import FormOpenQuiz from './components/FormOpenQuiz';
+import Navbar from './components/Navbar'
 
 class App extends Component {
   state = {
@@ -40,6 +41,7 @@ class App extends Component {
             <ModalEntry toggleLogin={this.toggleLogin}/>
           </div> :
           <div id="userPage">
+          <Navbar />
             <ModalQuiz userInfo={this.state.userInfo}/>
             <div id="otherQuizzes">
               {this.state.otherUsers.map((user) => (
