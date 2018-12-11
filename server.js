@@ -9,9 +9,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 require('./routes/api-routes')(app);
-// require('./models/connection.js');
-// require('./models/quiz.js');
-// require('./models/user.js');
+require('./models/Connection');
+require('./models/Quiz');
+require('./models/User');
 const databaseUri = 'mongodb://localhost/icebreaker';
 if (process.env.MONGODB_URI) {
     mongoose.connect(process.env.MONGODB_URI)

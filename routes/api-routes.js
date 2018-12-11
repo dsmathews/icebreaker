@@ -1,9 +1,8 @@
 const User = require('../models/User');
 const Quiz = require('../models/Quiz');
-const Connection = require('../models/connection')
+const Connection = require('../models/Connection')
 var jwt = require('jsonwebtoken');
 const authWare = require("../middleware/authentication");
-
 module.exports = function (app) {
     app.get('/api/user', function (req, res) {
         User.find().then(function (data) {
@@ -12,8 +11,6 @@ module.exports = function (app) {
             res.json(err);
         })
     })
-
-
     app.get('/api/user/:id', function (req, res) {
         User.find({ _id: req.params.id })
             .then(function (data) {
@@ -23,7 +20,6 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
-
     app.post('/api/user', function (req, res) {
         User.create(req.body)
             .then(function (data) {
@@ -33,7 +29,6 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
-
     app.post('/api/quiz', authWare, function (req, res) {
         const userId = req.userId;
         console.log("Inside /api/quiz:", userId);
@@ -56,7 +51,6 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
-
     app.get('/api/quiz', function (req, res) {
         Quiz.find({})
             .populate('quizMaker')
@@ -75,7 +69,6 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
-
     app.delete('/api/quiz/:id', authWare, function (req, res) {
         const userId = req.userId;
         Quiz.deleteOne({ _id: req.params.id })
@@ -87,7 +80,6 @@ module.exports = function (app) {
                 res.json(err);
             });
     });
-
     app.post('/api/connection', function (req, res) {
         const newConnection = {
             makerId: req.body.makerId,
@@ -101,9 +93,7 @@ module.exports = function (app) {
             .catch(function (err) {
                 res.json(err);
             });
-
     })
-
     app.get('/api/connection', function (req, res) {
         Connection.find().then(function (data) {
             res.json(data);
@@ -111,7 +101,6 @@ module.exports = function (app) {
             res.json(err);
         })
     })
-
     app.get('/api/connection/:id', function (req, res) {
         Connection.find({ _id: req.params.id })
             .then(function (data) {
@@ -145,7 +134,6 @@ module.exports = function (app) {
                     });
                 });
             }
-
         }).catch(function (err) {
             console.log(`error: ${err}`);
             res.status(500).json({ error: err });
