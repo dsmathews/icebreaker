@@ -5,6 +5,7 @@ import { Button, Modal, ModalBody, ModalFooter, Alert, Row, Input } from 'reacts
 class ModalQuiz extends React.Component {
 	state = {
 		modal: false,
+		quizId: '',
 		title: '',
 		questions: [],
 		answers: [],
@@ -16,14 +17,30 @@ class ModalQuiz extends React.Component {
 			message: ''
 		}
 	}
-
-	//[NOTE]: WILL NEED A COMPONENTDIDMOUNT CHECK TO GRAB AND FILL OUT QUESTIONS IF THEY EXIST.
-
 	//GENERAL FUNCTIONS
 	handleChange = (event) => {
 		this.setState({
 			[event.target.name]: event.target.value
 		})
+	}
+
+	componentDidMount() {
+		console.log("Quiz ID", this.props.userInfo.quizId)
+		if (this.props.userInfo.quizId.length >0) {
+			axios.get(`/api/quiz/${this.props.userInfo.quizId}`)
+				.then(resp =>
+					this.setState({
+						quizId: resp.data[0]._id,
+						title: resp.data[0].title,
+						answers: resp.data[0].answers,
+						questions: resp.data[0].questions
+					})
+				)
+		} else {
+			this.setState({
+				quizId: ''
+			})
+		}
 	}
 
 	toggleModal = () => {
@@ -65,10 +82,10 @@ class ModalQuiz extends React.Component {
 			input: this.state.input,
 			answer: this.state.answer
 		}
-		
+
 		if (this.validation(question)) {
 			this.incompleteForm();
-		} else if (this.state.questions[nextIndex] ) {
+		} else if (this.state.questions[nextIndex]) {
 			this.state.questions.splice(index, 1, question.input);
 			this.state.answers.splice(index, 1, question.answer);
 			this.setState({
@@ -170,34 +187,46 @@ class ModalQuiz extends React.Component {
 			}
 
 			console.log(fullQuiz);
-			//[NOTE]: THIS IS WHERE THE AXIOS CALL GOES.
 
-			//axios.post('/api/quiz/', fullQuiz)
-			//.then(() => {
-				this.toggleModal();
-				this.setState({
-					index: 0
+			const token = localStorage.getItem("token");
+			axios.post('/api/quiz/', fullQuiz, {
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			})
+				.then((res) => {
+					console.log('QuiZ Created: ', res);
+					this.toggleModal();
+					this.setState({
+						index: 0,
+						quizId: res.data._id
+					})
 				})
-			//})
 		}
 	}
 
-	updateQuiz = () => {
-		const index = this.state.index
-		this.setState({
-			modal: !this.state.modal,
-			title: this.state.title,
-			input: this.state.questions[index],
-			answer: this.state.answers[index]
-		})
+	deleteQuiz = () => {
+		const token = localStorage.getItem("token");
+		axios.delete(`/api/quiz/${this.state.quizId}`, {
+			headers: {
+				"Authorization": `Bearer ${token}`
+			}
+		}) .then (
+			this.setState({
+				quizId: '',
+				answers: [],
+				questions: [],
+				title: '',
+			})
+		)
 	}
 
 	render() {
 		return (
-			<div>
+			<div className = "quizBackground">
 				<div>
-					{this.state.questions.length === 5 ?
-						<Button color="primary" onClick={this.updateQuiz}>Update Quiz!</Button> : null}
+					{this.state.quizId ?
+						<Button color="primary" onClick={this.deleteQuiz}>Exterminate Quiz!</Button> : null}
 					{(this.state.questions.length > 0 && this.state.questions.length < 5) ?
 						<Button color="primary" onClick={this.resumeCreating}>Continue!</Button> : null}
 					{this.state.questions.length === 0 ?
@@ -207,13 +236,13 @@ class ModalQuiz extends React.Component {
 					<form>
 						<ModalBody>
 							<h3>Title:</h3>
-							<Input type="text" name="title" onChange={this.handleChange} value={this.state.title}/> 
+							<Input type="text" name="title" onChange={this.handleChange} value={this.state.title} />
 							<h3>Question {this.state.index + 1} of 5</h3>
 							<h6>Just type in a question and choose if it's true or false</h6>
 							{/* <FormGroup check> */}
 							<Row>
 								<h6>Question:</h6>
-								<Input type="textarea" name="input" onChange={this.handleChange} value={this.state.input}/>
+								<Input type="textarea" name="input" onChange={this.handleChange} value={this.state.input} />
 							</Row>
 							<Row>
 								<h6>Answer</h6>

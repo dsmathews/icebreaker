@@ -52,12 +52,12 @@ module.exports = function (app) {
                 })
             } else {
 
-                console.log(user)
+                console.log(user) 
 
                 jwt.sign({
                     username: user.username,
                     id: user.id
-                }, process.env.SK, { expiresIn: '30m' }, (err, token) => {
+                }, process.env.SECRET_KEY, { expiresIn: '30m' }, (err, token) => {
                     res.json({
                         token: token,
                         id: user.id,
@@ -74,32 +74,5 @@ module.exports = function (app) {
     });
     };
 
-    // Login the user
-    // Request will contest username and password
-    // After comparing with database using bcrypt decryption, response with jwt token
-    // If error, response with error object
-    app.post(`/api/login`, (req, res) => {
-        User.findOne({ username: req.body.username })
-            .then(function (data) {
-                if (!data) {
-                    throw "No such user or bad request format"
-                } else {
-                    bcrypt.compare(req.body.password, data.password).then(function (res) {
-                        if (res) {
-                            console.log(req.body.password);
-                            console.log(": " + data.password);
-                            /*
-                            const token = jwt.sign({id: data.id}, appRef.get("secretKey"), { expiresIn: "1h" });
-                            res.json({status: "success", message: "Logged in", data: {username: data.username, token: token}});   
-                            */
-                        } else {
-                            throw "Wrong password";
-                        }
-                    })
-                }
-            })
-            .catch(function (err) {
-                res.json({ status: "error", message: err });
-            });
-    });
+    
 

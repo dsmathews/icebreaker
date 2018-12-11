@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as $ from 'axios';
+import axios from 'axios';
 import ModalEntry from './components/ModalEntry';
 import ModalQuiz from './components/ModalQuiz';
 import FormOpenQuiz from './components/FormOpenQuiz'
@@ -40,6 +40,7 @@ const testArray = [
 class App extends Component {
   state = {
     loggedIn: false,
+    userInfo: {},
     otherUsers: []
   }
 
@@ -55,9 +56,10 @@ class App extends Component {
     this.setState({ otherUsers: testArray })
   }
 
-  toggleLogin = () => {
+  toggleLogin = (id) => {
     this.setState({
-      loggedIn: !this.state.loggedIn
+      loggedIn: !this.state.loggedIn,
+      userInfo: id
     })
   }
 
@@ -70,7 +72,7 @@ class App extends Component {
             <ModalEntry toggleLogin={this.toggleLogin}/>
           </div> :
           <div id="userPage">
-            <ModalQuiz />
+            <ModalQuiz userInfo={this.state.userInfo}/>
             <div id="otherQuizzes">
               {this.state.otherUsers.map((user) => (
                 <FormOpenQuiz
