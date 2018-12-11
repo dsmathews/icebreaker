@@ -1,6 +1,6 @@
 const express = require("express");
-
 const mongoose = require("mongoose");
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 require('dotenv').config();
@@ -17,7 +17,7 @@ require('./routes/api-routes')(app);
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/icebreaker");
 
-app.get('/', (req, res) => {
+app.get('/', (req,res) => {
   res.send(process.env.SECRET_KEY);
 })
 

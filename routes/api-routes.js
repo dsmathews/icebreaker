@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const Quiz = require('../models/Quiz');
 const Connection = require('../models/connection')
+var jwt = require('jsonwebtoken');
+const authWare = require("../middleware/authentication");
 
 module.exports = function (app) {
     app.get('/api/user', function (req, res) {
@@ -32,17 +34,23 @@ module.exports = function (app) {
             });
     });
 
-    app.post('/api/quiz', function (req, res) {
+    app.post('/api/quiz', authWare, function (req, res) {
+        const userId = req.userId;
+        console.log("Inside /api/quiz:", userId);
         const newEntry = {
             title: req.body.title,
             questions: req.body.questions,
             answers: req.body.answers,
-            quizMaker: req.body.quizMaker
+            quizMaker: userId
         }
-
+        let newQuiz;
         Quiz.create(newEntry)
             .then(function (dbQuiz) {
-                res.json(dbQuiz);
+                newQuiz=dbQuiz;
+                return User.findOneAndUpdate({ _id: dbQuiz.quizMaker}, {quizId: dbQuiz._id}, { new: true });
+            })
+            .then(function () {
+                res.json(newQuiz);
             })
             .catch(function (err) {
                 res.json(err);
@@ -66,10 +74,12 @@ module.exports = function (app) {
             });
     });
 
-    app.delete('/api/quiz/:id', function (req, res) {
+    app.delete('/api/quiz/:id', authWare, function (req, res) {
+        const userId = req.userId;
         Quiz.deleteOne({ _id: req.params.id })
             .then(function (data) {
-                res.json(data);
+                console.log(userId);
+                return User.findOneAndUpdate({ _id: userId}, {quizId: ''})
             })
             .catch(function (err) {
                 res.json(err);
@@ -114,20 +124,15 @@ module.exports = function (app) {
     app.post('/api/login', function (req, res) {
         console.log(req.body, "this should be our user");
         User.findOne({
-
             email: req.body.email,
-
         }).then(function (user) {
-
             console.log(user, "this should be the user")
             if (!user || !user.validatePw(req.body.password)) {
                 return res.status(401).json({
                     message: "Incorrect email or password."
                 })
             } else {
-
-                
-
+                ;
                 jwt.sign({
                     email: user.email,
                     id: user._id
@@ -135,15 +140,13 @@ module.exports = function (app) {
                     res.json({
                         token: token,
                         id: user._id,
-                    }).catch(err => {
-                        res.json({ err });
                     });
                 });
             }
 
         }).catch(function (err) {
             console.log(`error: ${err}`);
-            res.json({ error: err });
+            res.status(500).json({ error: err });
         });
     });
 }
