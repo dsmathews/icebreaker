@@ -46,8 +46,8 @@ module.exports = function (app) {
         let newQuiz;
         Quiz.create(newEntry)
             .then(function (dbQuiz) {
-                newQuiz=dbQuiz;
-                return User.findOneAndUpdate({ _id: dbQuiz.quizMaker}, {quizId: dbQuiz._id}, { new: true });
+                newQuiz = dbQuiz;
+                return User.findOneAndUpdate({ _id: dbQuiz.quizMaker }, { quizId: dbQuiz._id }, { new: true });
             })
             .then(function () {
                 res.json(newQuiz);
@@ -58,11 +58,13 @@ module.exports = function (app) {
     });
 
     app.get('/api/quiz', function (req, res) {
-        Quiz.find().then(function (data) {
-            res.json(data);
-        }).catch(function (err) {
-            res.json(err);
-        })
+        Quiz.find({})
+            .populate('quizMaker')
+            .then(function (data) {
+                res.json(data);
+            }).catch(function (err) {
+                res.json(err);
+            })
     })
     app.get('/api/quiz/:id', function (req, res) {
         Quiz.find({ _id: req.params.id })
@@ -79,7 +81,7 @@ module.exports = function (app) {
         Quiz.deleteOne({ _id: req.params.id })
             .then(function (data) {
                 console.log(userId);
-                return User.findOneAndUpdate({ _id: userId}, {quizId: ''})
+                return User.findOneAndUpdate({ _id: userId }, { quizId: '' })
             })
             .catch(function (err) {
                 res.json(err);
