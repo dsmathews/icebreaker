@@ -13,9 +13,26 @@ if (process.env.NODE_ENV === "production") {
 }
 
 require('./routes/api-routes')(app);
+// require('./models/connection.js');
+// require('./models/quiz.js');
+// require('./models/user.js');
 
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/icebreaker");
+const databaseUri = 'mongodb://localhost/icebreaker';
+
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI)
+} else {
+    mongoose.connect(databaseUri, {useNewUrlParser: true});
+}
+
+const db = mongoose.connection;
+db.on('error', function (err){
+    console.log("Mongoose Error: ", err);
+});
+db.once('open', function () {
+    console.log("Mongoose connection successful.");
+});
 
 app.get('/', (req,res) => {
   res.send(process.env.SECRET_KEY);
