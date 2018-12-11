@@ -47,6 +47,7 @@ class App extends Component {
                 <FormOpenQuiz
                   userId = {this.state.userInfo._id}
                   quizMakerId = {user.quizMaker._id}
+                  quizId ={user._id}
                   username={user.quizMaker.username}
                   title={user.title}
                   questions={user.questions}

@@ -114,6 +114,8 @@ class ModalTestTaker extends React.Component {
 		} else {
 			this.state.answers.splice(index, 1, answer)
 			console.log(this.state.answers)
+			console.log("Quiz ID: " + this.props.quizId)
+			console.log("Creator ID: " + this.props.quizMakerId)
 			//[NOTE]: THIS IS WHERE THE AXIOS CALL GOES.
 
 			//.then(() => {
@@ -138,6 +140,7 @@ class ModalTestTaker extends React.Component {
 				</div>
 				<Modal isOpen={this.state.modal} toggle={this.state.toggleModal}>
 					<form>
+						<h3>{this.props.title}</h3>
 						<ModalBody>
 							<h3>Question {this.state.index + 1} of 5</h3>
 							<div>{this.props.questions[this.state.index]}</div>
