@@ -9,38 +9,22 @@ class App extends Component {
     loggedIn: false,
     userInfo: {},
     otherQuizzes: [],
-    connections: [],
+    connections: []
   }
 
-  setQuizzes = () => {
-    axios.get('/api/quiz', {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    })
+  componentDidMount() {
+    axios.get('/api/quiz')
       .then(resp =>
         this.setState({
           otherQuizzes: resp.data
         })
       )
-  }
-
-  setYourResults = () => {
-    axios.get(`/api/user/${localStorage.getItem('userId')}/quizzesTaken`, {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    })
+    axios.get('/api/connection')
       .then(resp => {
         this.setState({
           connections: resp.data
         })
       })
-  }
-
-  componentDidMount() {
-    this.setQuizzes();
-    this.setYourResults();
   };
 
   toggleLogin = (id) => {
@@ -56,6 +40,16 @@ class App extends Component {
     });
   }
 
+  checkForTaken = () => {
+    const connection = this.state.connections;
+    let count = 0;
+    for (let i = 0; i < connection.length; i++) {
+      if (localStorage.getItem('userId') === connection.takerId._id) {
+        return
+      }
+    }
+  }
+
   render() {
     return (
       <div >
@@ -68,23 +62,26 @@ class App extends Component {
             <div id="otherQuizzes">
               {this.state.otherQuizzes.map((user) => (
                 this.state.userInfo._id === user.quizMaker._id ? null :
-                  <FormOpenQuiz
-                    setYourResults={this.setYourResults}
-                    setQuizzes={this.setQuizzes}
-                    key={user._id}
-                    quizMakerId={user.quizMaker._id}
-                    quizId={user._id}
-                    username={user.quizMaker.username}
-                    title={user.title}
-                    questions={user.questions}
-                    updateConnections={this.updateConnections}
-                    connections={this.state.connections}
-                  />
+                  this.state.connections.map((connection) => (
+                    <FormOpenQuiz
+                      key={user._id}
+                      takerId={connection.takerId._id}
+                      score={connection.score}
+                      quizMakerId={user.quizMaker._id}
+                      quizId={user._id}
+                      username={user.quizMaker.username}
+                      title={user.title}
+                      questions={user.questions}
+                      updateConnections={this.updateConnections}
+                      connections={this.state.connections}
+                    />
+                  ))
+
               ))}
             </div>
             <div id="otherQuizzes">
               {this.state.connections.map((connection) => (
-                !this.state.userInfo._id === connection.takerId._id ? null :
+                !this.state.userInfo._id === connection.takerId ? null :
                   <div key={connection._id}>
                     <FormConnect
                       makername={connection.makerId.username}

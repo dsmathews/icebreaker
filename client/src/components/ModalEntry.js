@@ -68,8 +68,7 @@ class ModalEntry extends React.Component {
 
 	//function to change the background when user logs in
 	changeBackground = () => {
-		console.log("goodtimes") 
-		document.querySelector("#root").classList.add("black")	
+		document.querySelector("#root").classList.add("black")
 	}
 
 	loginModal = () => {
@@ -91,7 +90,11 @@ class ModalEntry extends React.Component {
 			this.incompleteForm();
 		} else {
 			console.log(loginData);
-			axios.post("/api/login", loginData)
+			axios.post("/api/login", loginData, {
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("token")}`
+				}
+			})
 				.then(resp => {
 					console.log(resp);
 					alert("Login was successful");
@@ -102,13 +105,17 @@ class ModalEntry extends React.Component {
 					this.toggleModal();
 					localStorage.setItem("token", resp.data.token)
 					localStorage.setItem('userId', resp.data.id)
-					axios.get(`/api/user/${resp.data.id}`)
-					.then(resp => {
-						console.log('User Info: ', resp.data[0])
-						this.props.toggleLogin(resp.data[0]);
+					axios.get(`/api/user/${resp.data.id}`, {
+						headers: {
+							"Authorization": `Bearer ${localStorage.getItem("token")}`
+						}
 					})
+						.then(resp => {
+							console.log('User Info: ', resp.data[0])
+							this.props.toggleLogin(resp.data[0]);
+						})
 					//calling the background change here
-				this.changeBackground();
+					this.changeBackground();
 				})
 				.catch(err => {
 					alert("Email or Password is incorrect.")
@@ -151,7 +158,11 @@ class ModalEntry extends React.Component {
 				quizId: ""
 			}
 			console.log(newUser)
-			axios.post("/api/user", newUser)
+			axios.post("/api/user", newUser, {
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("token")}`
+				}
+			})
 				.then(resp => {
 					console.log(resp);
 					alert("Thanks for Creating an account, Please Login.")
