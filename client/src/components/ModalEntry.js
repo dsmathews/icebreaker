@@ -187,8 +187,8 @@ class ModalEntry extends React.Component {
 				</div>
 
 				<div>
-					<Button onClick={this.loginModal} className="login-btn">Login</Button>
-					<Button onClick={this.signUpModal} className="signup-btn">Sign Up</Button>
+					<Button color = "light" onClick={this.loginModal} className="login-btn">Login</Button>
+					<Button color = "light" onClick={this.signUpModal} className="signup-btn">Sign Up</Button>
 				</div>
 
 				<Modal isOpen={this.state.modal} toggle={this.state.toggleModal}>
@@ -200,8 +200,8 @@ class ModalEntry extends React.Component {
 							</ModalBody>
 							<Alert color={this.state.alert.color}>{this.state.alert.message}</Alert>
 							<ModalFooter>
-								<Button onClick={this.toggleModal}>Close</Button>
-								<Button onClick={this.login}>Submit</Button>
+								<Button color = "light" onClick={this.toggleModal}>Close</Button>
+								<Button color = "light" onClick={this.login}>Submit</Button>
 							</ModalFooter>
 						</div>
 						: null}
@@ -212,8 +212,8 @@ class ModalEntry extends React.Component {
 							</ModalBody>
 							<Alert color={this.state.alert.color}>{this.state.alert.message}</Alert>
 							<ModalFooter>
-								<Button onClick={this.toggleModal}>Close</Button>
-								<Button onClick={this.signUp}>Submit</Button>
+								<Button  onClick={this.toggleModal}>Close</Button>
+								<Button  onClick={this.signUp}>Submit</Button>
 							</ModalFooter>
 						</div>
 						: null}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import ModalEntry from './components/ModalEntry';
 import ModalQuiz from './components/ModalQuiz';
@@ -181,10 +182,8 @@ class App extends Component {
   }
 
   render() {
-
     return (
-
-      <div className="animated fadeIn">
+      <Container >
         {!this.state.loggedIn ?
           <div id="loginScreen">
             <ModalEntry
@@ -199,12 +198,19 @@ class App extends Component {
             </div>
           </div> :
           <div id="userPage">
-            <div>
-              <Navbar />
-            </div>
+          <Row>
+            <Col>
+            <Navbar />
+            </Col>
+          </Row>
+            <Row>
             <ModalQuiz userInfo={this.state.userInfo} />
-            <div id="otherQuizzes">
+            <Col id="otherQuizzes">
+            <Row>
+              <Col>
               <h3>Quizzes To Take</h3>
+              </Col>
+            </Row>
               {this.state.otherQuizzes.map((user) => (
                 this.state.userInfo._id === user.quizMaker._id ? null :
                   <FormOpenQuiz
@@ -220,8 +226,8 @@ class App extends Component {
                     connections={this.state.connections}
                   />
               ))}
-            </div>
-            <div id="resultsForYou">
+            </Col>
+            <Col id="resultsForYou">
               <h3>Your Scores! Let's Connect</h3>
               {this.state.connections.map((connection) => (
                 !this.state.userInfo._id === connection.takerId._id ? null :
@@ -233,20 +239,33 @@ class App extends Component {
                     />
                   </div>
               ))}
-            </div>
-            <div id="tookYourQuiz">
-              <h3>They Took Your Quiz! NOW TALK!</h3>
-              {this.state.quizTakers.map((quizTaker) => (
-                <div key={quizTaker._id}>
-                  <FormTookYours
-                    takername={quizTaker.takerId.username}
-                    score={quizTaker.score}
-                  />
-                </div>
-              ))}
-            </div>
+
+            </Col>
+            </Row>
+            <Row>
+            <Col id="tookYourQuiz">
+            <h3>They Took Your Quiz! NOW TALK!</h3>
+                {this.state.quizTakers.map((quizTaker) => (
+                   <div key={quizTaker._id}>
+                   <FormTookYours
+                     takername={quizTaker.takerId.username}
+                     score={quizTaker.score}
+                   />
+                 </div>
+                ))} 
+            </Col>
+            </Row>
           </div>}
-      </div>
+          <Row>
+					<Col>
+				<footer className="footer">
+					<div className="container-footer">
+						<span><b className="footer-text"> IceBreakers &copy; 2018</b></span>
+					</div>
+				</footer>
+				</Col>
+				</Row>
+      </Container>
     )
   }
 }
