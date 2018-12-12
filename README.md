@@ -7,6 +7,9 @@ Pamela Anderson (UI, Encryption)
 David Blais (UI, Chat and Direct Messaging)
 Scott Mathews (Server, DB)
 
+Deployed Link:
+https://morning-castle-23513.herokuapp.com/
+
 Summary:
 Application to connect people through common interest quizzes.
 
