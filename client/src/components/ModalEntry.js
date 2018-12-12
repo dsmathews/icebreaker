@@ -106,18 +106,19 @@ class ModalEntry extends React.Component {
 				localStorage.setItem('userId', resp.data.id)
 
 			}).then(resp => {
-				console.log(localStorage.getItem('userId'))
-				this.props.setYourResults();
-				this.props.setQuizzes();
-				axios.get(`/api/user/${localStorage.getItem('userId')}`, {
+				const userId=localStorage.getItem('userId')
+				console.log("LOCAL STORAGE", userId )
+				axios.get(`/api/user/${userId}`, {
 					headers: {
 						"Authorization": `Bearer ${localStorage.getItem("token")}`
 					}
 				}).then(resp => {
-					console.log('User Info: ', resp.data[0])
+					console.log('User Info: ', resp.data)
 					this.props.toggleLogin(resp.data[0]);
 					//calling the background change here
 					this.changeBackground();
+					this.props.setYourResults();
+					this.props.setQuizzes();
 				})
 			})
 			.catch(err => {

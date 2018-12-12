@@ -26,21 +26,20 @@ class ModalQuiz extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log("Quiz ID", this.props.userInfo.quizId)
-		if (this.props.userInfo.quizId.length > 0) {
+		console.log("User Info42", this.props.userInfo)
+		if (this.props.userInfo.quizId) {
 			console.log(this.props.userInfo.quizId)
 			axios.get(`/api/quiz/${this.props.userInfo.quizId}`, {
 				headers: {
 					"Authorization": `Bearer ${localStorage.getItem("token")}`
 				  }
-			})
-				.then(resp =>
-					this.setState({
-						quizId: resp.data[0]._id,
-						title: resp.data[0].title,
-						answers: resp.data[0].answers,
-						questions: resp.data[0].questions
-					})
+			}).then(resp =>
+				this.setState({
+					quizId: resp.data[0]._id,
+					title: resp.data[0].title,
+					answers: resp.data[0].answers,
+					questions: resp.data[0].questions
+				})
 				)
 		} else {
 			this.setState({
@@ -240,7 +239,7 @@ class ModalQuiz extends React.Component {
 					{this.state.quizId ? <div>
 						<Button color="primary" onClick={this.deleteQuiz}>Exterminate Quiz!</Button>
 						<div>
-							<Button color="primary" onClick={this.toggleView}>Check it</Button> : null}
+							<Button color="primary" onClick={this.toggleView}>Check it</Button>
 							<Modal isOpen={this.state.modal2} toggle={this.toggleView}>
 							<ModalBody>
 									<h3>{this.state.title}</h3>

@@ -40,6 +40,17 @@ class App extends Component {
       })
   }
 
+  getQuizTakers = () => {
+    axios.get(`/api/quiz/${this.state.userInfo.quizId}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then(resp => {
+        console.log(resp)
+      })
+  }
+
   componentDidMount() {
     this.setQuizzes();
     this.setYourResults();
@@ -72,6 +83,7 @@ class App extends Component {
           <div id="userPage">
             <ModalQuiz userInfo={this.state.userInfo} />
             <div id="otherQuizzes">
+            <h3>Quizzes To Take</h3>
               {this.state.otherQuizzes.map((user) => (
                 this.state.userInfo._id === user.quizMaker._id ? null :
                   <FormOpenQuiz
@@ -88,7 +100,8 @@ class App extends Component {
                   />
               ))}
             </div>
-            <div id="otherQuizzes">
+            <div id="resultsForYou">
+            <h3>Your Scores! Let's Connect</h3>
               {this.state.connections.map((connection) => (
                 !this.state.userInfo._id === connection.takerId._id ? null :
                   <div key={connection._id}>
