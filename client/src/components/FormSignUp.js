@@ -6,7 +6,7 @@ const FormSignUp = (props) => (
 		<Form>
 			<h3>Sign Up</h3>
 			<FormGroup>
-			<Row>
+				<Row>
 					<Col>First Name: </Col>
 					<Col><Input type="text" name='firstName' onChange={props.handleChange}></Input></Col>
 				</Row>

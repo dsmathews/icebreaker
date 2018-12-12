@@ -27,17 +27,21 @@ class ModalQuiz extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log("Quiz ID", this.props.userInfo.quizId)
-		if (this.props.userInfo.quizId.length > 0) {
-			axios.get(`/api/quiz/${this.props.userInfo.quizId}`)
-				.then(resp =>
-					this.setState({
-						quizId: resp.data[0]._id,
-						title: resp.data[0].title,
-						answers: resp.data[0].answers,
-						questions: resp.data[0].questions
-					})
-				)
+		console.log("User Info42", this.props.userInfo)
+		if (this.props.userInfo.quizId) {
+			console.log(this.props.userInfo.quizId)
+			axios.get(`/api/quiz/${this.props.userInfo.quizId}`, {
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("token")}`
+				}
+			}).then(resp =>
+				this.setState({
+					quizId: resp.data[0]._id,
+					title: resp.data[0].title,
+					answers: resp.data[0].answers,
+					questions: resp.data[0].questions
+				})
+			)
 		} else {
 			this.setState({
 				quizId: ''
@@ -234,17 +238,17 @@ class ModalQuiz extends React.Component {
 			<div className="quizBackground">
 				<div>
 					{this.state.quizId ? <div>
-						<Button color="primary" onClick={this.deleteQuiz}>Exterminate Quiz!</Button>
+						<Button onClick={this.deleteQuiz} className="exterminate-btn">Exterminate Quiz!</Button>
+						<Button onClick={this.toggleView} className="checkit-btn">Check out your quiz</Button>
 						<div>
-							<Button color="primary" onClick={this.toggleView}>Check it</Button> : null}
 							<Modal isOpen={this.state.modal2} toggle={this.toggleView}>
-							<ModalBody>
-									<h3>{this.state.title}</h3>
-									<div>{this.state.questions[0]}</div><div>{this.state.answers[0]}</div>
-									<div>{this.state.questions[1]}</div><div>{this.state.answers[1]}</div>
-									<div>{this.state.questions[2]}</div><div>{this.state.answers[2]}</div>
-									<div>{this.state.questions[3]}</div><div>{this.state.answers[3]}</div>
-									<div>{this.state.questions[4]}</div><div>{this.state.answers[4]}</div>
+								<ModalBody className="view-quiz">
+									<h3 className="view-quiz-title">{this.state.title}</h3>
+									<div className="view-quiz-questions">{this.state.questions[0]}</div><div>{this.state.answers[0]}</div>
+									<div className="view-quiz-questions">{this.state.questions[1]}</div><div>{this.state.answers[1]}</div>
+									<div className="view-quiz-questions">{this.state.questions[2]}</div><div>{this.state.answers[2]}</div>
+									<div className="view-quiz-questions">{this.state.questions[3]}</div><div>{this.state.answers[3]}</div>
+									<div className="view-quiz-questions">{this.state.questions[4]}</div><div>{this.state.answers[4]}</div>
 								</ModalBody>
 								<ModalFooter>
 									<Button onClick={this.toggleView}>We Good</Button>
@@ -254,9 +258,9 @@ class ModalQuiz extends React.Component {
 						</div>
 					</div> : null}
 					{(this.state.questions.length > 0 && this.state.questions.length < 5) ?
-						<Button color="primary" onClick={this.resumeCreating}>Continue!</Button> : null}
+						<Button onClick={this.resumeCreating} className="continue-quiz-btn">Continue!</Button> : null}
 					{this.state.questions.length === 0 ?
-						<Button color="primary" onClick={this.toggleModal}>Create Quiz!</Button> : null}
+						<Button onClick={this.toggleModal} className="create-btn">Create Quiz!</Button> : null}
 				</div>
 				<Modal isOpen={this.state.modal} toggle={this.state.toggleModal}>
 					<form>
@@ -309,6 +313,11 @@ class ModalQuiz extends React.Component {
 						</ModalFooter>
 					</form>
 				</Modal>
+				<footer className="footer">
+					<div className="container-footer">
+						<span><b className="footer-text"> IceBreakers &copy; 2018</b></span>
+					</div>
+				</footer>
 			</div>
 
 		)

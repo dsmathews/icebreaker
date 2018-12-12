@@ -10,7 +10,8 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem
+} from 'reactstrap';
 
 export default class Example extends React.Component {
   constructor(props) {
@@ -29,19 +30,16 @@ export default class Example extends React.Component {
   render() {
     return (
       <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">ICE BREAKERS</NavbarBrand>
+        <Navbar expand="md">
+          <NavbarBrand ><b className="navbar-title">ICE BREAKERS</b></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/ModalQuiz">Exterminate Quiz</NavLink>
+                <NavLink href="https://morning-castle-23513.herokuapp.com/" className="logout-link">Log Out</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">Check it</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/ModalQuiz">Log Out</NavLink>
+                <NavLink href="/ModalQuiz" className="logout-link">Contact</NavLink>
               </NavItem>
             </Nav>
           </Collapse>

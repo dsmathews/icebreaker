@@ -1,5 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import { Button, Modal, ModalBody, ModalFooter, Alert, Row } from 'reactstrap';
+
+
 
 class ModalTestTaker extends React.Component {
 	state = {
@@ -107,28 +110,54 @@ class ModalTestTaker extends React.Component {
 
 	submitAnswers = () => {
 		const index = this.state.index;
-		const answer = this.state.answer
+		const answer = this.state.answer;
+		const quizId = this.props.quizId;
+		const makerId = this.props.quizMakerId;
+		let answerKey = [];
+		let answers = [];
+		let scoreCounter = 0;
 
 		if (!answer) {
 			this.incompleteForm();
 		} else {
 			this.state.answers.splice(index, 1, answer)
 			console.log(this.state.answers)
+			answers = this.state.answers;
 			console.log("Quiz ID: " + this.props.quizId)
 			console.log("Creator ID: " + this.props.quizMakerId)
-			//[NOTE]: THIS IS WHERE THE AXIOS CALL GOES.
 
-			//.then(() => {
-			this.setState({
-				answer: '',
-				index: 0,
-				alert: {
-					color: '',
-					message: ''
+			axios.get(`/api/quiz/${this.props.quizId}`, {
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("token")}`
 				}
+			}).then(function (res) {
+				console.log('ANSWER KEY', res.data[0].answers)
+				answerKey = res.data[0].answers
+
+				for (let i = 0; i < answers.length; i++) {
+					if (answers[i] === answerKey[i]) {
+						scoreCounter++;
+					}
+				}
+				console.log('SCORE', scoreCounter);
+
+				const submitAll = {
+					takerId: localStorage.getItem("userId"),
+					quizId: quizId,
+					makerId: makerId,
+					score: scoreCounter
+				}
+
+				return axios.post(`/api/connection`, submitAll, {
+					headers: {
+						"Authorization": `Bearer ${localStorage.getItem("token")}`
+					}
+				});
+			}).then(resp => {
+				this.props.setQuizzes();
+				this.props.setYourResults();
+				this.toggleModal()
 			})
-			this.toggleModal();
-			//})
 		}
 	}
 
@@ -136,14 +165,14 @@ class ModalTestTaker extends React.Component {
 		return (
 			<div>
 				<div>
-					<Button color="primary" onClick={this.toggleModal}>Take It!</Button>
+					<Button onClick={this.toggleModal}>Take It!</Button>
 				</div>
 				<Modal isOpen={this.state.modal} toggle={this.state.toggleModal}>
 					<form>
-						<h3>{this.props.title}</h3>
+						<h3 className="take-quiz-title">{this.props.title}</h3>
 						<ModalBody>
-							<h3>Question {this.state.index + 1} of 5</h3>
-							<div>{this.props.questions[this.state.index]}</div>
+							<h3 className="take-quiz-title2">Question {this.state.index + 1} of 5</h3>
+							<div className="take-quiz-question">{this.props.questions[this.state.index]}</div>
 							<Row>
 								<label htmlFor="answer-true">True</label>
 								<input

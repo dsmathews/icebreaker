@@ -68,8 +68,7 @@ class ModalEntry extends React.Component {
 
 	//function to change the background when user logs in
 	changeBackground = () => {
-		console.log("goodtimes") 
-		document.querySelector("#root").classList.add("black")	
+		document.querySelector("#root").classList.add("black")
 	}
 
 	loginModal = () => {
@@ -91,29 +90,40 @@ class ModalEntry extends React.Component {
 			this.incompleteForm();
 		} else {
 			console.log(loginData);
-			axios.post("/api/login", loginData)
-				.then(resp => {
-					console.log(resp);
-					alert("Login was successful");
-					this.setState({
-						email: '',
-						password: '',
-					})
-					this.toggleModal();
-					localStorage.setItem("token", resp.data.token)
-					localStorage.setItem('userId', resp.data.id)
-					axios.get(`/api/user/${resp.data.id}`)
-					.then(resp => {
-						console.log('User Info: ', resp.data[0])
-						this.props.toggleLogin(resp.data[0]);
-					})
-					//calling the background change here
-				this.changeBackground();
+			axios.post("/api/login", loginData, {
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("token")}`
+				}
+			}).then(resp => {
+				console.log('Login Data', resp.data);
+				alert("Login was successful");
+				this.setState({
+					email: '',
+					password: '',
 				})
-				.catch(err => {
-					alert("Email or Password is incorrect.")
-				})
+				this.toggleModal();
+				localStorage.setItem("token", resp.data.token)
+				localStorage.setItem('userId', resp.data.id)
 
+			}).then(resp => {
+				const userId=localStorage.getItem('userId')
+				console.log("LOCAL STORAGE", userId )
+				axios.get(`/api/user/${userId}`, {
+					headers: {
+						"Authorization": `Bearer ${localStorage.getItem("token")}`
+					}
+				}).then(resp => {
+					console.log('User Info: ', resp.data)
+					this.props.toggleLogin(resp.data[0]);
+					this.props.setYourResults();
+					this.props.setQuizzes();
+					this.props.getQuizTakers();
+					this.changeBackground();
+				})
+			})
+			.catch(err => {
+				alert("Email or Password is incorrect.")
+			})
 		}
 	}
 
@@ -151,7 +161,11 @@ class ModalEntry extends React.Component {
 				quizId: ""
 			}
 			console.log(newUser)
-			axios.post("/api/user", newUser)
+			axios.post("/api/user", newUser, {
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("token")}`
+				}
+			})
 				.then(resp => {
 					console.log(resp);
 					alert("Thanks for Creating an account, Please Login.")
@@ -169,7 +183,7 @@ class ModalEntry extends React.Component {
 			<div>
 				<div>
 					<h1 className="home-header">ICE BREAKERS</h1>
-					<p className="home-body">Ice Breakers - Create and Take quizzes to find friends with similar interests and break the ice!</p>
+					<p className="home-body">Create and Take quizzes to find friends with similar interests and break the ice!</p>
 				</div>
 
 				<div>

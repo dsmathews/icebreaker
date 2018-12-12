@@ -9,6 +9,8 @@ import Signup from './components/ChatApp/Signup';
 import ChatApp from './components/ChatApp/ChatApp';
 import { default as Chatkit } from '@pusher/chatkit-server';
 // import FormOpenQuiz from './components/FormOpenQuiz';
+import FormConnect from './components/FormConnect';
+import FormTookYours from './components/FormTookYours';
 import Navbar from './components/Navbar'
 
 //Initializes chat.
@@ -22,7 +24,10 @@ class App extends Component {
     loggedIn: false,
     userInfo: {},
     otherUsers: [],
-    chatOpen: false
+    chatOpen: false,
+    otherQuizzes: [],
+    connections: [],
+    quizTakers: []
   };
 
   constructor(props) {
@@ -45,9 +50,76 @@ class App extends Component {
       )
   };
 
-  findUsers = () => {
-
+  setUserInfo = () => {
+    axios.get(`/api/user/${localStorage.getItem('userId')}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then(resp => {
+        this.setState({
+          userInfo: resp.data
+        })
+      })
   }
+
+  setQuizzes = () => {
+    axios.get('/api/quiz', {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then(resp => {
+        this.setState({
+          otherQuizzes: resp.data
+        })
+        console.log('Your Quizes Set!')
+      })
+  }
+
+  setYourResults = () => {
+    axios.get(`/api/user/${localStorage.getItem('userId')}/quizzesTaken`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then(resp => {
+        console.log(resp.data)
+        this.setState({
+          connections: resp.data
+        })
+        console.log('Your Results Set!')
+      })
+  }
+
+  getQuizTakers = () => {
+    axios.get(`/api/connection/${this.state.userInfo.quizId}/list`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then(resp => {
+        this.setState({
+          quizTakers: resp.data
+        })
+      })
+  }
+
+  startUp = () => {
+    if (localStorage.getItem('userId')) {
+      this.setUserInfo();
+      this.setQuizzes();
+      this.setYourResults();
+      this.getQuizTakers();
+      this.setState({
+        loggedIn: true
+      })
+    }
+  }
+
+  // componentDidMount() {
+  //   // this.startUp();
+  // };
 
   toggleLogin = (id) => {
     this.setState({
@@ -111,33 +183,67 @@ class App extends Component {
     return (
 
       <div className="animated fadeIn">
-        {!this.state.loggedIn ? (
+        {!this.state.loggedIn ?
           <div id="loginScreen">
-            <ModalEntry toggleLogin={this.toggleLogin} />
-          </div>
-        ) : (
-            <div id="userPage">
-              <Navbar />
-              <ModalQuiz userInfo={this.state.userInfo} />
-              <div id="otherQuizzes">
-                {this.state.otherUsers.map((user) => (
-                  this.state.userInfo._id === user.quizMaker._id ? null :
-                    <FormOpenQuiz
-                      userId={this.state.userInfo._id}
-                      quizMakerId={user.quizMaker._id}
-                      quizId={user._id}
-                      username={user.quizMaker.username}
-                      title={user.title}
-                      questions={user.questions}
-                    />
-                ))}
-                <div className="App">
-                  {this.state.chatOpen && this.renderChat()}
-                  <button className="chat-button" onClick={this.toggleChat}>Chat</button>
-                </div>
-              </div>
+            <ModalEntry
+              toggleLogin={this.toggleLogin}
+              setYourResults={this.setYourResults}
+              setQuizzes={this.setQuizzes}
+              getQuizTakers={this.getQuizTakers}
+            />
+            <div className="App">
+              {this.state.chatOpen && this.renderChat()}
+              <button className="chat-button" onClick={this.toggleChat}>Chat</button>
             </div>
-          )}
+          </div> :
+          <div id="userPage">
+            <div>
+              <Navbar />
+            </div>
+            <ModalQuiz userInfo={this.state.userInfo} />
+            <div id="otherQuizzes">
+              <h3>Quizzes To Take</h3>
+              {this.state.otherQuizzes.map((user) => (
+                this.state.userInfo._id === user.quizMaker._id ? null :
+                  <FormOpenQuiz
+                    setYourResults={this.setYourResults}
+                    setQuizzes={this.setQuizzes}
+                    getQuizTakers={this.getQuizTakers}
+                    key={user._id}
+                    quizMakerId={user.quizMaker._id}
+                    quizId={user._id}
+                    username={user.quizMaker.username}
+                    title={user.title}
+                    questions={user.questions}
+                    connections={this.state.connections}
+                  />
+              ))}
+            </div>
+            <div id="resultsForYou">
+              <h3>Your Scores! Let's Connect</h3>
+              {this.state.connections.map((connection) => (
+                !this.state.userInfo._id === connection.takerId._id ? null :
+                  <div key={connection._id}>
+                    <FormConnect
+                      makername={connection.makerId.username}
+                      quizname={connection.quizId.title}
+                      score={connection.score}
+                    />
+                  </div>
+              ))}
+            </div>
+            <div id="tookYourQuiz">
+              <h3>They Took Your Quiz! NOW TALK!</h3>
+              {this.state.quizTakers.map((quizTaker) => (
+                <div key={quizTaker._id}>
+                  <FormTookYours
+                    takername={quizTaker.takerId.username}
+                    score={quizTaker.score}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>}
       </div>
     )
   }
