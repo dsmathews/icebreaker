@@ -6,14 +6,14 @@ const authWare = require("../middleware/authentication");
 const ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = function (app) {
-    app.get('/api/user', function (req, res) {
+    app.get('/api/user', authWare, function (req, res) {
         User.find().then(function (data) {
             res.json(data);
         }).catch(function (err) {
             res.json(err);
         })
     })
-    app.get('/api/user/:id', function (req, res) {
+    app.get('/api/user/:id', authWare, function (req, res) {
         User.find({ _id: req.params.id })
             .then(function (data) {
                 res.json(data);
@@ -142,7 +142,7 @@ module.exports = function (app) {
             })
     })
 
-    app.get('/api/connection', function (req, res) {
+    app.get('/api/connection', authWare, function (req, res) {
         Connection.find({})
             .populate('quizId')
             .populate('takerId')
@@ -153,7 +153,7 @@ module.exports = function (app) {
                 res.json(err);
             })
     })
-    app.get('/api/connection/:id', function (req, res) {
+    app.get('/api/connection/:id', authWare, function (req, res) {
         Connection.find({ _id: req.params.id })
             .then(function (data) {
                 res.json(data);
