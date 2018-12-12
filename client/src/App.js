@@ -16,6 +16,19 @@ class App extends Component {
     quizTakers: []
   }
 
+  setUserInfo = () => {
+    axios.get(`/api/user/${localStorage.getItem('userId')}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then(resp => {
+        this.setState({
+        userInfo: resp.data
+        })
+      })
+  }
+
   setQuizzes = () => {
     axios.get('/api/quiz', {
       headers: {
@@ -58,9 +71,20 @@ class App extends Component {
       })
   }
 
+  startUp = () => {
+    if (localStorage.getItem('userId')) {
+      this.setUserInfo();
+      this.setQuizzes();
+      this.setYourResults();
+      this.getQuizTakers();
+      this.setState({
+        loggedIn: true
+      })
+    }
+  }
+
   componentDidMount() {
-    this.setQuizzes();
-    this.setYourResults();
+    // this.startUp();
   };
 
   toggleLogin = (id) => {
