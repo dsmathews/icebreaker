@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 var ConnectionSchema = new Schema({
+    quizId: {
+        type: Schema.Types.ObjectId,
+        ref: "Quiz"
+    },
     makerId:{
             type: Schema.Types.ObjectId,
             ref: "User"
@@ -11,7 +15,7 @@ var ConnectionSchema = new Schema({
             ref: "User"
         },
     score:{
-            //grabs score result from page         
+            type: Number
         }
 });
 

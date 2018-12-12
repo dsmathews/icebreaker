@@ -27,16 +27,20 @@ class ModalQuiz extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log("Quiz ID", this.props.userInfo.quizId)
-		if (this.props.userInfo.quizId.length > 0) {
-			axios.get(`/api/quiz/${this.props.userInfo.quizId}`)
-				.then(resp =>
-					this.setState({
-						quizId: resp.data[0]._id,
-						title: resp.data[0].title,
-						answers: resp.data[0].answers,
-						questions: resp.data[0].questions
-					})
+		console.log("User Info42", this.props.userInfo)
+		if (this.props.userInfo.quizId) {
+			console.log(this.props.userInfo.quizId)
+			axios.get(`/api/quiz/${this.props.userInfo.quizId}`, {
+				headers: {
+					"Authorization": `Bearer ${localStorage.getItem("token")}`
+				  }
+			}).then(resp =>
+				this.setState({
+					quizId: resp.data[0]._id,
+					title: resp.data[0].title,
+					answers: resp.data[0].answers,
+					questions: resp.data[0].questions
+				})
 				)
 		} else {
 			this.setState({

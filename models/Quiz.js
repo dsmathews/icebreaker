@@ -19,7 +19,10 @@ var QuizSchema = new Schema({
     quizMaker: {
             type: Schema.Types.ObjectId,
             ref: "User"
-        }
+        },
+    takers: {
+        type: Array
+    }
 });
 
 const Quiz = mongoose.model("Quiz", QuizSchema);
