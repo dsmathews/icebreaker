@@ -133,14 +133,14 @@ class ModalTestTaker extends React.Component {
 			}).then(function (res) {
 				console.log('ANSWER KEY', res.data[0].answers)
 				answerKey = res.data[0].answers
-			}).then(function () {
+
 				for (let i = 0; i < answers.length; i++) {
 					if (answers[i] === answerKey[i]) {
 						scoreCounter++;
 					}
 				}
-				console.log('SCORE', scoreCounter)
-			}).then(function () {
+				console.log('SCORE', scoreCounter);
+
 				const submitAll = {
 					takerId: localStorage.getItem("userId"),
 					quizId: quizId,
@@ -148,11 +148,11 @@ class ModalTestTaker extends React.Component {
 					score: scoreCounter
 				}
 
-				axios.post(`/api/connection`, submitAll, {
+				return axios.post(`/api/connection`, submitAll, {
 					headers: {
 						"Authorization": `Bearer ${localStorage.getItem("token")}`
 					}
-				})
+				});
 			}).then(resp => {
 				this.props.setQuizzes();
 				this.props.setYourResults();

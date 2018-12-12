@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ModalEntry from './components/ModalEntry';
 import ModalQuiz from './components/ModalQuiz';
-import FormOpenQuiz from './components/FormOpenQuiz'
-import FormConnect from './components/FormConnect'
+import FormOpenQuiz from './components/FormOpenQuiz';
+import FormConnect from './components/FormConnect';
+import FormTookYours from './components/FormTookYours';
 import Navbar from './components/Navbar'
 
 class App extends Component {
@@ -12,6 +13,7 @@ class App extends Component {
     userInfo: {},
     otherQuizzes: [],
     connections: [],
+    quizTakers: []
   }
 
   setQuizzes = () => {
@@ -35,6 +37,7 @@ class App extends Component {
       }
     })
       .then(resp => {
+        console.log(resp.data)
         this.setState({
           connections: resp.data
         })
@@ -43,13 +46,15 @@ class App extends Component {
   }
 
   getQuizTakers = () => {
-    axios.get(`/api/quiz/${this.state.userInfo.quizId}`, {
+    axios.get(`/api/connection/${this.state.userInfo.quizId}/list`, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     })
       .then(resp => {
-        console.log(resp)
+        this.setState({
+          quizTakers: resp.data
+        })
       })
   }
 
@@ -65,12 +70,6 @@ class App extends Component {
     })
   }
 
-  updateConnections = (newConnection) => {
-    this.setState({
-      connections: this.state.connections.concat(newConnection)
-    });
-  }
-
   render() {
     return (
       <div >
@@ -80,6 +79,7 @@ class App extends Component {
               toggleLogin={this.toggleLogin} 
               setYourResults={this.setYourResults}
               setQuizzes={this.setQuizzes}
+              getQuizTakers={this.getQuizTakers}
             />
           </div> :
           <div id="userPage">
@@ -98,7 +98,6 @@ class App extends Component {
                     username={user.quizMaker.username}
                     title={user.title}
                     questions={user.questions}
-                    updateConnections={this.updateConnections}
                     connections={this.state.connections}
                   />
               ))}
@@ -115,6 +114,17 @@ class App extends Component {
                     />
                   </div>
               ))}
+            </div>
+            <div id="tookYourQuiz">
+            <h3>They Took Your Quiz! NOW TALK!</h3>
+                {this.state.quizTakers.map((quizTaker) => (
+                   <div key={quizTaker._id}>
+                   <FormTookYours
+                     takername={quizTaker.takerId.username}
+                     score={quizTaker.score}
+                   />
+                 </div>
+                ))} 
             </div>
           </div>}
       </div>

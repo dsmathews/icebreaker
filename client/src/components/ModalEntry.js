@@ -115,10 +115,10 @@ class ModalEntry extends React.Component {
 				}).then(resp => {
 					console.log('User Info: ', resp.data)
 					this.props.toggleLogin(resp.data[0]);
-					//calling the background change here
-					this.changeBackground();
 					this.props.setYourResults();
 					this.props.setQuizzes();
+					this.props.getQuizTakers();
+					this.changeBackground();
 				})
 			})
 			.catch(err => {
