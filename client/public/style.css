@@ -12,6 +12,7 @@
 	align-items:center;
 	height:100%
 }
+/*home page header*/
 .home-header {
 	font-family: 'Unica One', cursive;
 	font-size: 75px;
@@ -19,6 +20,7 @@
 	position: relative;
 	top: -250px;
 }
+/*home page body text*/
 .home-body {
 	font-family: 'Lato', sans-serif;
 	text-align: center;
@@ -35,12 +37,12 @@
 	width:400px;
 	height:800px;
 }
-
+/*Card in middle for the quizzes*/
 #otherQuizzes {
 	
-	background-color: white;
+	background: linear-gradient(to right, #fcf7f3, #97c3f0, #a4c6e1, #9daec4, #006b9e) ;;
 	margin-bottom: 5%;
-   box-shadow: 4px 4px 7px gray;
+   box-shadow: 8px 8px 12px rgb(108,117,125);
     overflow: hidden;
     position: relative;
     margin-bottom: 10%;
@@ -50,7 +52,7 @@
 	justify-content:center;
 	width:500px;
 	height:800px;
-	opacity: 0.7;
+	opacity: .94;
 }
 
 #singleQuiz, #singleConnection{
@@ -61,23 +63,110 @@
 	border-color:grey;
 	border-radius: 10px;
 }
-
-.black {
-	background-image: url(./images/joyce-mccown-766501-unsplash.jpg) !important;
-	opacity: 0.5;
+/*navbar*/
+.navbar {
+	background-color: rgb(108,117,125);
 }
+.navbar-title {
+	color: white;
+}
+.logout-link {
+	color: white;
+}
+
+/*hover over logout */
+.logout-link:hover {
+	background-color:rgb(0,107,158);
+	opacity: 0.8;
+}
+/*background image on users page*/
+.black {
+	background-image: url(./images/jeremy-bishop-256584-unsplash.jpg) !important;
+}
+/*button to sign up*/
 .signup-btn {
 background-color: black;
 margin: 20px;
 width: 40%;
 position: relative;
 top: -265px;
-
 }
+/*button to login to account*/
 .login-btn {
 	background-color: black;
 	margin: 20px;
 	width: 40%;
 	position: relative;
 	top: -265px;
-	}
+}
+/* button to create quiz*/
+.create-btn {
+	position: relative;
+left: 150px;
+margin: 20px;
+width: 40%;
+
+}
+/*button to exterminate quiz*/
+.exterminate-btn {
+	position: relative;
+	margin: 6px;
+	position: relative;
+	margin: 20px;
+	/* width: 40%; */
+	width: 50%;
+	height: 40px;
+	left: 100px;
+}
+/*button to check over quiz*/
+.checkit-btn {
+	position: relative;
+	margin: 6px;
+	position: relative;
+	margin: 20px;
+	/* width: 40%; */
+	width: 50%;
+	height: 40px;
+	left: 100px;
+}
+.exterminate-btn, .checkit-btn {
+	display:inline-block;
+	
+}
+/* section for the view quiz modal*/
+.view-quiz {
+	font-family: 'Lato', sans-serif;
+}
+.view-quiz-title {
+	font-size: 48px;
+	text-align: center;
+}
+.view-quiz-question {
+	font-size: 22px;
+	margin: 12px;
+    padding: 3px;
+}
+/*take quiz modal*/
+.take-quiz-question {
+	font-size: 28px;
+	margin:12px;
+}
+.take-quiz-title {
+	text-align: center;
+}
+.take-quiz-title2 {
+	text-align: center;
+}
+
+/*footer section*/
+.container-footer {
+	position:relative;
+	bottom: -850px;
+
+}
+.footer-text {
+	position:relative;
+	left:150px;
+	font-size: 24px;
+	color: white;
+}

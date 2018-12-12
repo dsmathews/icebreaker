@@ -83,8 +83,8 @@ class App extends Component {
             />
           </div> :
           <div id="userPage">
-          <Navbar />
-            <ModalQuiz userInfo={this.state.userInfo}/>
+            <Navbar />
+            <ModalQuiz userInfo={this.state.userInfo} />
             <div id="otherQuizzes">
             <h3>Quizzes To Take</h3>
               {this.state.otherQuizzes.map((user) => (

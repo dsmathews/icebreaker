@@ -165,14 +165,14 @@ class ModalTestTaker extends React.Component {
 		return (
 			<div>
 				<div>
-					<Button color="primary" onClick={this.toggleModal}>Take It!</Button>
+					<Button onClick={this.toggleModal}>Take It!</Button>
 				</div>
 				<Modal isOpen={this.state.modal} toggle={this.state.toggleModal}>
 					<form>
-						<h3>{this.props.title}</h3>
+						<h3 className="take-quiz-title">{this.props.title}</h3>
 						<ModalBody>
-							<h3>Question {this.state.index + 1} of 5</h3>
-							<div>{this.props.questions[this.state.index]}</div>
+							<h3 className="take-quiz-title2">Question {this.state.index + 1} of 5</h3>
+							<div className="take-quiz-question">{this.props.questions[this.state.index]}</div>
 							<Row>
 								<label htmlFor="answer-true">True</label>
 								<input
