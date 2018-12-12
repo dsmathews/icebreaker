@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
 import {
   Collapse,
   Navbar,
@@ -30,6 +31,8 @@ export default class Example extends React.Component {
   render() {
     return (
       <div>
+        <Row>
+          <Col>
         <Navbar expand="md">
           <NavbarBrand ><b className="navbar-title">ICE BREAKERS</b></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
@@ -44,6 +47,8 @@ export default class Example extends React.Component {
             </Nav>
           </Collapse>
         </Navbar>
+        </Col>
+        </Row>
       </div>
     );
   }
