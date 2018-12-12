@@ -113,7 +113,6 @@ class ModalEntry extends React.Component {
 				.catch(err => {
 					alert("Email or Password is incorrect.")
 				})
-
 		}
 	}
 

@@ -43,7 +43,7 @@ module.exports = function (app) {
         console.log(req.body, "this should be our user");
         User.findOne({
             where: {
-                username: req.body.username,
+                email: req.body.email,
             }
         }).then(function (user) {
             if (!user || !user.validatePw(req.body.password)) {
