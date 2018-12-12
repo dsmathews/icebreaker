@@ -53,7 +53,7 @@
 	opacity: 0.7;
 }
 
-#singleQuiz{
+#singleQuiz, #singleConnection{
 	width:300px;
 	background-color: darkgrey;
 	border-style:solid;
