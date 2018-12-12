@@ -28,12 +28,12 @@ module.exports = function (app) {
         Connection.find({
             takerId: req.userId
         }).populate('makerId')
-        .populate('quizId')
-        .then(function (quizzes) {
-            res.json(quizzes);
-        }).catch(function (err) {
-            res.status(500).json(err);
-        });
+            .populate('quizId')
+            .then(function (quizzes) {
+                res.json(quizzes);
+            }).catch(function (err) {
+                res.status(500).json(err);
+            });
     });
 
     app.post('/api/user', function (req, res) {
@@ -71,7 +71,7 @@ module.exports = function (app) {
 
     app.get('/api/quiz', authWare, function (req, res) {
         const userId = req.userId;
-        console.log({userId});
+        console.log({ userId });
         Quiz.find({
             takers: {
                 $not: {
@@ -102,10 +102,19 @@ module.exports = function (app) {
             .then(function (data) {
                 return User.findOneAndUpdate({ _id: userId }, { quizId: '' })
             })
+            .then(function () {
+                return Connection.deleteMany({
+                    quizId: req.params.id
+                });
+            })
+            .then(function () {
+                res.json({ message: `Deleted quiz ${req.params.id}.` });
+            })
             .catch(function (err) {
-                res.json(err);
+                res.status(500).json(err);
             });
     });
+
     app.post('/api/connection', function (req, res) {
         const userId = req.userId;
         console.log('QUIZ ID', req.body.quizId);
