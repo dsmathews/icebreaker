@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ModalEntry from './components/ModalEntry';
 import ModalQuiz from './components/ModalQuiz';
-import FormOpenQuiz from './components/FormOpenQuiz'
-import FormConnect from './components/FormConnect'
+import FormOpenQuiz from './components/FormOpenQuiz';
+import FormConnect from './components/FormConnect';
+import FormTookYours from './components/FormTookYours';
 import Navbar from './components/Navbar'
 
 class App extends Component {
@@ -12,6 +13,20 @@ class App extends Component {
     userInfo: {},
     otherQuizzes: [],
     connections: [],
+    quizTakers: []
+  }
+
+  setUserInfo = () => {
+    axios.get(`/api/user/${localStorage.getItem('userId')}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then(resp => {
+        this.setState({
+        userInfo: resp.data
+        })
+      })
   }
 
   setQuizzes = () => {
@@ -35,6 +50,7 @@ class App extends Component {
       }
     })
       .then(resp => {
+        console.log(resp.data)
         this.setState({
           connections: resp.data
         })
@@ -43,19 +59,32 @@ class App extends Component {
   }
 
   getQuizTakers = () => {
-    axios.get(`/api/quiz/${this.state.userInfo.quizId}`, {
+    axios.get(`/api/connection/${this.state.userInfo.quizId}/list`, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     })
       .then(resp => {
-        console.log(resp)
+        this.setState({
+          quizTakers: resp.data
+        })
       })
   }
 
+  startUp = () => {
+    if (localStorage.getItem('userId')) {
+      this.setUserInfo();
+      this.setQuizzes();
+      this.setYourResults();
+      this.getQuizTakers();
+      this.setState({
+        loggedIn: true
+      })
+    }
+  }
+
   componentDidMount() {
-    this.setQuizzes();
-    this.setYourResults();
+    // this.startUp();
   };
 
   toggleLogin = (id) => {
@@ -65,46 +94,43 @@ class App extends Component {
     })
   }
 
-  updateConnections = (newConnection) => {
-    this.setState({
-      connections: this.state.connections.concat(newConnection)
-    });
-  }
-
   render() {
     return (
       <div >
         {!this.state.loggedIn ?
           <div id="loginScreen">
-            <ModalEntry 
-              toggleLogin={this.toggleLogin} 
+            <ModalEntry
+              toggleLogin={this.toggleLogin}
               setYourResults={this.setYourResults}
               setQuizzes={this.setQuizzes}
+              getQuizTakers={this.getQuizTakers}
             />
           </div> :
           <div id="userPage">
-            <Navbar />
+            <div>
+              <Navbar />
+            </div>
             <ModalQuiz userInfo={this.state.userInfo} />
             <div id="otherQuizzes">
-            <h3>Quizzes To Take</h3>
+              <h3>Quizzes To Take</h3>
               {this.state.otherQuizzes.map((user) => (
                 this.state.userInfo._id === user.quizMaker._id ? null :
                   <FormOpenQuiz
                     setYourResults={this.setYourResults}
                     setQuizzes={this.setQuizzes}
+                    getQuizTakers={this.getQuizTakers}
                     key={user._id}
                     quizMakerId={user.quizMaker._id}
                     quizId={user._id}
                     username={user.quizMaker.username}
                     title={user.title}
                     questions={user.questions}
-                    updateConnections={this.updateConnections}
                     connections={this.state.connections}
                   />
               ))}
             </div>
             <div id="resultsForYou">
-            <h3>Your Scores! Let's Connect</h3>
+              <h3>Your Scores! Let's Connect</h3>
               {this.state.connections.map((connection) => (
                 !this.state.userInfo._id === connection.takerId._id ? null :
                   <div key={connection._id}>
@@ -115,6 +141,17 @@ class App extends Component {
                     />
                   </div>
               ))}
+            </div>
+            <div id="tookYourQuiz">
+            <h3>They Took Your Quiz! NOW TALK!</h3>
+                {this.state.quizTakers.map((quizTaker) => (
+                   <div key={quizTaker._id}>
+                   <FormTookYours
+                     takername={quizTaker.takerId.username}
+                     score={quizTaker.score}
+                   />
+                 </div>
+                ))} 
             </div>
           </div>}
       </div>

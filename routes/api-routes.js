@@ -3,7 +3,6 @@ const Quiz = require('../models/Quiz');
 const Connection = require('../models/Connection')
 var jwt = require('jsonwebtoken');
 const authWare = require("../middleware/authentication");
-const axios = require('axios');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = function (app) {
@@ -114,10 +113,14 @@ module.exports = function (app) {
                 res.status(500).json(err);
             });
     });
+<<<<<<< HEAD
 
     app.post('/api/connection', function (req, res) {
         const userId = req.userId;
         console.log('QUIZ ID', req.body.quizId);
+=======
+    app.post('/api/connection', authWare, function (req, res) {
+>>>>>>> 054dcce8d698d53a6805453f14d538bdd54fcc3a
         const newConnection = {
             quizId: req.body.quizId,
             makerId: req.body.makerId,
@@ -128,7 +131,6 @@ module.exports = function (app) {
             .then(function () {
                 Connection.create(newConnection)
                     .then(function (dbConnection) {
-                        console.log(dbConnection)
                         res.json(dbConnection);
                     })
                     .catch(function (err) {
@@ -136,6 +138,17 @@ module.exports = function (app) {
                     });
             });
     })
+
+    app.get('/api/connection/:id/list', authWare, function (req, res) {
+        Connection.find({ quizId: req.params.id })
+            .populate('takerId')
+            .then(function (data) {
+                res.json(data);
+            }).catch(function (err) {
+                res.json(err);
+            })
+    })
+
     app.get('/api/connection', function (req, res) {
         Connection.find({})
             .populate('quizId')
