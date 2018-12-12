@@ -150,7 +150,13 @@ width: 40%;
 .take-quiz-title2 {
 	text-align: center;
 }
-
+/*continue with user quiz btn*/
+.continue-quiz-btn {
+	margin: 20px;
+	width: 40%;
+	position:relative;
+	left: 200px;
+}
 /*footer section*/
 .container-footer {
 	position:relative;

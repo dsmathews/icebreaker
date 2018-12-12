@@ -258,7 +258,7 @@ class ModalQuiz extends React.Component {
 						</div>
 					</div> : null}
 					{(this.state.questions.length > 0 && this.state.questions.length < 5) ?
-						<Button color="primary" onClick={this.resumeCreating}>Continue!</Button> : null}
+						<Button onClick={this.resumeCreating} className="continue-quiz-btn">Continue!</Button> : null}
 					{this.state.questions.length === 0 ?
 						<Button onClick={this.toggleModal} className="create-btn">Create Quiz!</Button> : null}
 				</div>
