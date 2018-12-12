@@ -101,8 +101,16 @@ module.exports = function (app) {
             .then(function (data) {
                 return User.findOneAndUpdate({ _id: userId }, { quizId: '' })
             })
+            .then(function () {
+                return Connection.deleteMany({
+                    quizId: req.params.id
+                });
+            })
+            .then(function () {
+                res.json({ message: `Deleted quiz ${req.params.id}.` });
+            })
             .catch(function (err) {
-                res.json(err);
+                res.status(500).json(err);
             });
     });
     app.post('/api/connection', authWare, function (req, res) {
