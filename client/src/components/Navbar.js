@@ -36,7 +36,7 @@ export default class Example extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/ModalQuiz" className="logout-link">Log Out</NavLink>
+                <NavLink href="https://morning-castle-23513.herokuapp.com/" className="logout-link">Log Out</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/ModalQuiz" className="logout-link">Contact</NavLink>

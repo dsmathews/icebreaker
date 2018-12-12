@@ -76,17 +76,19 @@ class App extends Component {
       <div >
         {!this.state.loggedIn ?
           <div id="loginScreen">
-            <ModalEntry 
-              toggleLogin={this.toggleLogin} 
+            <ModalEntry
+              toggleLogin={this.toggleLogin}
               setYourResults={this.setYourResults}
               setQuizzes={this.setQuizzes}
             />
           </div> :
           <div id="userPage">
-            <Navbar />
+            <div>
+              <Navbar />
+            </div>
             <ModalQuiz userInfo={this.state.userInfo} />
             <div id="otherQuizzes">
-            <h3>Quizzes To Take</h3>
+              <h3>Quizzes To Take</h3>
               {this.state.otherQuizzes.map((user) => (
                 this.state.userInfo._id === user.quizMaker._id ? null :
                   <FormOpenQuiz
@@ -104,7 +106,7 @@ class App extends Component {
               ))}
             </div>
             <div id="resultsForYou">
-            <h3>Your Scores! Let's Connect</h3>
+              <h3>Your Scores! Let's Connect</h3>
               {this.state.connections.map((connection) => (
                 !this.state.userInfo._id === connection.takerId._id ? null :
                   <div key={connection._id}>

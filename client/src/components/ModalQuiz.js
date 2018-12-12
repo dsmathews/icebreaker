@@ -33,7 +33,7 @@ class ModalQuiz extends React.Component {
 			axios.get(`/api/quiz/${this.props.userInfo.quizId}`, {
 				headers: {
 					"Authorization": `Bearer ${localStorage.getItem("token")}`
-				  }
+				}
 			}).then(resp =>
 				this.setState({
 					quizId: resp.data[0]._id,
@@ -41,7 +41,7 @@ class ModalQuiz extends React.Component {
 					answers: resp.data[0].answers,
 					questions: resp.data[0].questions
 				})
-				)
+			)
 		} else {
 			this.setState({
 				quizId: ''
@@ -239,8 +239,8 @@ class ModalQuiz extends React.Component {
 				<div>
 					{this.state.quizId ? <div>
 						<Button onClick={this.deleteQuiz} className="exterminate-btn">Exterminate Quiz!</Button>
+						<Button onClick={this.toggleView} className="checkit-btn">Check out your quiz</Button>
 						<div>
-							<Button onClick={this.toggleView} className="checkit-btn">Check out your quiz</Button>
 							<Modal isOpen={this.state.modal2} toggle={this.toggleView}>
 								<ModalBody className="view-quiz">
 									<h3 className="view-quiz-title">{this.state.title}</h3>
@@ -258,7 +258,7 @@ class ModalQuiz extends React.Component {
 						</div>
 					</div> : null}
 					{(this.state.questions.length > 0 && this.state.questions.length < 5) ?
-						<Button color="primary" onClick={this.resumeCreating}>Continue!</Button> : null}
+						<Button onClick={this.resumeCreating} className="continue-quiz-btn">Continue!</Button> : null}
 					{this.state.questions.length === 0 ?
 						<Button onClick={this.toggleModal} className="create-btn">Create Quiz!</Button> : null}
 				</div>
