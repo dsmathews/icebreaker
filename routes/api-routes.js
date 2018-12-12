@@ -35,7 +35,7 @@ module.exports = function (app) {
             });
     });
 
-    app.post('/api/user', function (req, res) {
+    app.post('/api/user', authWare, function (req, res) {
         User.create(req.body)
             .then(function (data) {
                 res.json(data);
@@ -86,7 +86,7 @@ module.exports = function (app) {
                 res.status(500).json(err);
             })
     })
-    app.get('/api/quiz/:id', function (req, res) {
+    app.get('/api/quiz/:id', authWare, function (req, res) {
         Quiz.find({ _id: req.params.id })
             .then(function (data) {
                 res.json(data);

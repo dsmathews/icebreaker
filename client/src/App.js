@@ -41,15 +41,6 @@ class App extends Component {
     this.createUser = this.createUser.bind(this);
   };
 
-  componentDidMount() {
-    axios.get('/api/quiz')
-      .then(resp =>
-        this.setState({
-          otherUsers: resp.data
-        })
-      )
-  };
-
   setUserInfo = () => {
     axios.get(`/api/user/${localStorage.getItem('userId')}`, {
       headers: {
@@ -70,6 +61,7 @@ class App extends Component {
       }
     })
       .then(resp => {
+        console.log('SET QUIZZES', resp)
         this.setState({
           otherQuizzes: resp.data
         })
@@ -105,20 +97,68 @@ class App extends Component {
       })
   }
 
-  startUp = () => {
-    if (localStorage.getItem('userId')) {
-      this.setUserInfo();
-      this.setQuizzes();
-      this.setYourResults();
-      this.getQuizTakers();
-      this.setState({
-        loggedIn: true
-      })
-    }
-  }
+  // startUp = () => {
+  //   if (localStorage.getItem('userId')) {
+  //     this.setUserInfo();
+  //     this.setQuizzes();
+  //     this.setYourResults();
+  //     this.getQuizTakers();
+  //     this.setState({
+  //       loggedIn: true
+  //     })
+  //   }
+  // }
 
   // componentDidMount() {
-  //   // this.startUp();
+  //   this.startUp();
+  // };
+
+  
+  //Create's user in chat. (Work with Pamela with integrating this into the login screen.)
+  createUser(username) {
+    chatkit.createUser({
+      id: username,
+      name: username,
+    })
+    .then((currentUser) => {
+      this.setState({
+        currentUsername: username,
+        currentId: username,
+        currentView: 'chatApp'
+      })
+    }).catch((err) => {
+      if (err.status === 400) {
+        this.setState({
+          currentUsername: username,
+          currentId: username,
+          currentView: 'chatApp'
+        })
+      } else {
+        console.log(err.status);
+      }
+    });
+  };
+  
+  //Changes what you see when clicking on the chat screen. (From signup to chat.)
+  changeView(view) {
+    this.setState({
+      currentView: view
+    })
+  }
+  
+  toggleChat = () => {
+    this.setState({
+      chatOpen: !this.state.chatOpen
+    })
+  }
+  
+  // componentDidMount() {
+  //   axios.get('/api/quiz')
+  //     .then(resp =>
+  //       this.setState({
+  //         otherUsers: resp.data
+  //       })
+  //     )
   // };
 
   toggleLogin = (id) => {
@@ -129,45 +169,7 @@ class App extends Component {
       this.createUser(this.state.userInfo.email);
     })
   }
-
-  //Create's user in chat. (Work with Pamela with integrating this into the login screen.)
-  createUser(username) {
-    chatkit.createUser({
-      id: username,
-      name: username,
-    })
-      .then((currentUser) => {
-        this.setState({
-          currentUsername: username,
-          currentId: username,
-          currentView: 'chatApp'
-        })
-      }).catch((err) => {
-        if (err.status === 400) {
-          this.setState({
-            currentUsername: username,
-            currentId: username,
-            currentView: 'chatApp'
-          })
-        } else {
-          console.log(err.status);
-        }
-      });
-  };
-
-  //Changes what you see when clicking on the chat screen. (From signup to chat.)
-  changeView(view) {
-    this.setState({
-      currentView: view
-    })
-  }
-
-  toggleChat = () => {
-    this.setState({
-      chatOpen: !this.state.chatOpen
-    })
-  }
-
+  
   renderChat() {
     if (this.state.currentView === "ChatMessage") {
       return <ChatMessage changeView={this.changeView} />
