@@ -108,7 +108,7 @@ class ModalEntry extends React.Component {
 			}).then(resp => {
 				const userId=localStorage.getItem('userId')
 				console.log("LOCAL STORAGE", userId )
-				axios.get(`/api/user/${userId}`, {
+				return axios.get(`/api/user/${userId}`, {
 					headers: {
 						"Authorization": `Bearer ${localStorage.getItem("token")}`
 					}
