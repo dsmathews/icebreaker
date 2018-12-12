@@ -92,6 +92,7 @@ class App extends Component {
                   <FormOpenQuiz
                     setYourResults={this.setYourResults}
                     setQuizzes={this.setQuizzes}
+                    getQuizTakers={this.getQuizTakers}
                     key={user._id}
                     quizMakerId={user.quizMaker._id}
                     quizId={user._id}
