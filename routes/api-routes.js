@@ -113,14 +113,7 @@ module.exports = function (app) {
                 res.status(500).json(err);
             });
     });
-<<<<<<< HEAD
-
-    app.post('/api/connection', function (req, res) {
-        const userId = req.userId;
-        console.log('QUIZ ID', req.body.quizId);
-=======
     app.post('/api/connection', authWare, function (req, res) {
->>>>>>> 054dcce8d698d53a6805453f14d538bdd54fcc3a
         const newConnection = {
             quizId: req.body.quizId,
             makerId: req.body.makerId,
