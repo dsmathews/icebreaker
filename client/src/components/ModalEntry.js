@@ -182,8 +182,8 @@ class ModalEntry extends React.Component {
 		return (
 			<div>
 				<div>
-					<h1>Ice Breakers</h1>
-					<p>Ice Breakers - Create and Take quizzes to find friends with similar interests and break the ice!</p>
+					<h1 className="home-header">ICE BREAKERS</h1>
+					<p className="home-body">Ice Breakers - Create and Take quizzes to find friends with similar interests and break the ice!</p>
 				</div>
 
 				<div>

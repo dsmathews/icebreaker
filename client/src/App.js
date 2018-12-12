@@ -4,6 +4,8 @@ import ModalEntry from './components/ModalEntry';
 import ModalQuiz from './components/ModalQuiz';
 import FormOpenQuiz from './components/FormOpenQuiz'
 import FormConnect from './components/FormConnect'
+import Navbar from './components/Navbar'
+
 class App extends Component {
   state = {
     loggedIn: false,
@@ -81,7 +83,8 @@ class App extends Component {
             />
           </div> :
           <div id="userPage">
-            <ModalQuiz userInfo={this.state.userInfo} />
+          <Navbar />
+            <ModalQuiz userInfo={this.state.userInfo}/>
             <div id="otherQuizzes">
             <h3>Quizzes To Take</h3>
               {this.state.otherQuizzes.map((user) => (
