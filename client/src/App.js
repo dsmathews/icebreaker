@@ -18,11 +18,12 @@ class App extends Component {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     })
-      .then(resp =>
+      .then(resp => {
         this.setState({
           otherQuizzes: resp.data
         })
-      )
+        console.log('Your Quizes Set!')
+      })
   }
 
   setYourResults = () => {
@@ -35,6 +36,7 @@ class App extends Component {
         this.setState({
           connections: resp.data
         })
+        console.log('Your Results Set!')
       })
   }
 
@@ -61,7 +63,11 @@ class App extends Component {
       <div >
         {!this.state.loggedIn ?
           <div id="loginScreen">
-            <ModalEntry toggleLogin={this.toggleLogin} />
+            <ModalEntry 
+              toggleLogin={this.toggleLogin} 
+              setYourResults={this.setYourResults}
+              setQuizzes={this.setQuizzes}
+            />
           </div> :
           <div id="userPage">
             <ModalQuiz userInfo={this.state.userInfo} />

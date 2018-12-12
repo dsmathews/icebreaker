@@ -94,33 +94,35 @@ class ModalEntry extends React.Component {
 				headers: {
 					"Authorization": `Bearer ${localStorage.getItem("token")}`
 				}
-			})
-				.then(resp => {
-					console.log(resp);
-					alert("Login was successful");
-					this.setState({
-						email: '',
-						password: '',
-					})
-					this.toggleModal();
-					localStorage.setItem("token", resp.data.token)
-					localStorage.setItem('userId', resp.data.id)
-					axios.get(`/api/user/${resp.data.id}`, {
-						headers: {
-							"Authorization": `Bearer ${localStorage.getItem("token")}`
-						}
-					})
-						.then(resp => {
-							console.log('User Info: ', resp.data[0])
-							this.props.toggleLogin(resp.data[0]);
-						})
+			}).then(resp => {
+				console.log('Login Data', resp.data);
+				alert("Login was successful");
+				this.setState({
+					email: '',
+					password: '',
+				})
+				this.toggleModal();
+				localStorage.setItem("token", resp.data.token)
+				localStorage.setItem('userId', resp.data.id)
+
+			}).then(resp => {
+				console.log(localStorage.getItem('userId'))
+				this.props.setYourResults();
+				this.props.setQuizzes();
+				axios.get(`/api/user/${localStorage.getItem('userId')}`, {
+					headers: {
+						"Authorization": `Bearer ${localStorage.getItem("token")}`
+					}
+				}).then(resp => {
+					console.log('User Info: ', resp.data[0])
+					this.props.toggleLogin(resp.data[0]);
 					//calling the background change here
 					this.changeBackground();
 				})
-				.catch(err => {
-					alert("Email or Password is incorrect.")
-				})
-
+			})
+			.catch(err => {
+				alert("Email or Password is incorrect.")
+			})
 		}
 	}
 

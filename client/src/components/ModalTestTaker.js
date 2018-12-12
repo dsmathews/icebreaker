@@ -130,42 +130,34 @@ class ModalTestTaker extends React.Component {
 				headers: {
 					"Authorization": `Bearer ${localStorage.getItem("token")}`
 				}
+			}).then(function (res) {
+				console.log('ANSWER KEY', res.data[0].answers)
+				answerKey = res.data[0].answers
+			}).then(function () {
+				for (let i = 0; i < answers.length; i++) {
+					if (answers[i] === answerKey[i]) {
+						scoreCounter++;
+					}
+				}
+				console.log('SCORE', scoreCounter)
+			}).then(function () {
+				const submitAll = {
+					takerId: localStorage.getItem("userId"),
+					quizId: quizId,
+					makerId: makerId,
+					score: scoreCounter
+				}
+
+				axios.post(`/api/connection`, submitAll, {
+					headers: {
+						"Authorization": `Bearer ${localStorage.getItem("token")}`
+					}
+				})
+			}).then(resp => {
+				this.props.setQuizzes();
+				this.props.setYourResults();
+				this.toggleModal()
 			})
-				.then(function (res) {
-					console.log('ANSWER KEY', res.data[0].answers)
-					answerKey = res.data[0].answers
-				})
-				.then(function () {
-					for (let i = 0; i < answers.length; i++) {
-						if (answers[i] === answerKey[i]) {
-							scoreCounter++;
-						}
-					}
-					console.log('SCORE', scoreCounter)
-				})
-				.then(function () {
-					const submitAll = {
-						takerId: localStorage.getItem("userId"),
-						quizId: quizId,
-						makerId: makerId,
-						score: scoreCounter
-					}
-
-					axios.post(`/api/connection`, submitAll, {
-						headers: {
-							"Authorization": `Bearer ${localStorage.getItem("token")}`
-						}
-					})
-
-				}).then(resp => {
-					this.props.setQuizzes();
-				})
-				.then(resp => {
-					this.props.setYourResults();
-				})
-				.then(
-					this.toggleModal()
-				)
 		}
 	}
 
