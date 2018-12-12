@@ -12,6 +12,7 @@
 	align-items:center;
 	height:100%
 }
+/*home page header*/
 .home-header {
 	font-family: 'Unica One', cursive;
 	font-size: 75px;
@@ -19,6 +20,7 @@
 	position: relative;
 	top: -250px;
 }
+/*home page body text*/
 .home-body {
 	font-family: 'Lato', sans-serif;
 	text-align: center;
@@ -35,17 +37,12 @@
 	width:400px;
 	height:800px;
 }
-/*navbar title: icebreakers*/
-.navbar-light .navbar-brand {
-	font-size: 28px;
-	color: black;
-}
-
+/*Card in middle for the quizzes*/
 #otherQuizzes {
 	
-	background-color: white;
+	background-color: rgb(226,215,211);
 	margin-bottom: 5%;
-   box-shadow: 4px 4px 7px gray;
+   box-shadow: 8px 8px 12px rgb(108,117,125);
     overflow: hidden;
     position: relative;
     margin-bottom: 10%;
@@ -55,7 +52,7 @@
 	justify-content:center;
 	width:500px;
 	height:800px;
-	opacity: 0.7;
+	opacity: .94;
 }
 
 #singleQuiz{
@@ -66,11 +63,21 @@
 	border-color:grey;
 	border-radius: 10px;
 }
+/*navbar*/
+.navbar {
+	background-color: rgb(226,215,211);
+}
 
+/*hover over logout */
+.logout-link:hover {
+	background-color:rgb(108,117,125);
+	opacity: 0.8;
+}
+/*background image on users page*/
 .black {
 	background-image: url(./images/roman-kraft-669711-unsplash.jpg) !important;
-	opacity: 0.5;
 }
+/*button to sign up*/
 .signup-btn {
 background-color: black;
 margin: 20px;
@@ -79,10 +86,66 @@ position: relative;
 top: -265px;
 
 }
+/*button to login to account*/
 .login-btn {
 	background-color: black;
 	margin: 20px;
 	width: 40%;
 	position: relative;
 	top: -265px;
-	}
+}
+/* button to create quiz*/
+.create-btn {
+	position: relative;
+left: 150px;
+margin: 20px;
+width: 40%;
+
+}
+/*button to exterminate quiz*/
+.exterminate-btn {
+	position: relative;
+	margin: 6px;
+	position: relative;
+	margin: 20px;
+	/* width: 40%; */
+	width: 300px;
+	height: 40px;
+}
+/*button to check over quiz*/
+.checkit-btn {
+	position: relative;
+	margin: 6px;
+	position: relative;
+	margin: 20px;
+	/* width: 40%; */
+	width: 300px;
+	height: 40px;
+}
+.exterminate-btn, .checkit-btn {
+	display:inline-block;
+	
+}
+/* section for the view quiz modal*/
+.view-quiz {
+	font-family: 'Lato', sans-serif;
+}
+.view-quiz-title {
+	font-size: 48px;
+	text-align: center;
+}
+.view-quiz-question {
+	font-size: 22px;
+	margin: 12px;
+    padding: 3px;
+}
+.take-quiz-question {
+	font-size: 28px;
+	margin:12px;
+}
+.take-quiz-title {
+	text-align: center;
+}
+.take-quiz-title2 {
+	text-align: center;
+}

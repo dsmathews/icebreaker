@@ -234,17 +234,17 @@ class ModalQuiz extends React.Component {
 			<div className="quizBackground">
 				<div>
 					{this.state.quizId ? <div>
-						<Button color="primary" onClick={this.deleteQuiz}>Exterminate Quiz!</Button>
+						<Button onClick={this.deleteQuiz} className="exterminate-btn">Exterminate Quiz!</Button>
 						<div>
-							<Button color="primary" onClick={this.toggleView}>Check it</Button> : null}
+							<Button onClick={this.toggleView} className="checkit-btn">Check it</Button>
 							<Modal isOpen={this.state.modal2} toggle={this.toggleView}>
-							<ModalBody>
-									<h3>{this.state.title}</h3>
-									<div>{this.state.questions[0]}</div><div>{this.state.answers[0]}</div>
-									<div>{this.state.questions[1]}</div><div>{this.state.answers[1]}</div>
-									<div>{this.state.questions[2]}</div><div>{this.state.answers[2]}</div>
-									<div>{this.state.questions[3]}</div><div>{this.state.answers[3]}</div>
-									<div>{this.state.questions[4]}</div><div>{this.state.answers[4]}</div>
+								<ModalBody className="view-quiz">
+									<h3 className="view-quiz-title">{this.state.title}</h3>
+									<div className="view-quiz-questions">{this.state.questions[0]}</div><div>{this.state.answers[0]}</div>
+									<div className="view-quiz-questions">{this.state.questions[1]}</div><div>{this.state.answers[1]}</div>
+									<div className="view-quiz-questions">{this.state.questions[2]}</div><div>{this.state.answers[2]}</div>
+									<div className="view-quiz-questions">{this.state.questions[3]}</div><div>{this.state.answers[3]}</div>
+									<div className="view-quiz-questions">{this.state.questions[4]}</div><div>{this.state.answers[4]}</div>
 								</ModalBody>
 								<ModalFooter>
 									<Button onClick={this.toggleView}>We Good</Button>
@@ -256,7 +256,7 @@ class ModalQuiz extends React.Component {
 					{(this.state.questions.length > 0 && this.state.questions.length < 5) ?
 						<Button color="primary" onClick={this.resumeCreating}>Continue!</Button> : null}
 					{this.state.questions.length === 0 ?
-						<Button color="primary" onClick={this.toggleModal}>Create Quiz!</Button> : null}
+						<Button onClick={this.toggleModal} className="create-btn">Create Quiz!</Button> : null}
 				</div>
 				<Modal isOpen={this.state.modal} toggle={this.state.toggleModal}>
 					<form>

@@ -14,11 +14,11 @@ class App extends Component {
 
   componentDidMount() {
     axios.get('/api/quiz')
-    .then (resp =>
-      this.setState({
-        otherUsers: resp.data
-      })
-    )
+      .then(resp =>
+        this.setState({
+          otherUsers: resp.data
+        })
+      )
   };
 
   findUsers = () => {
@@ -38,22 +38,22 @@ class App extends Component {
       <div >
         {!this.state.loggedIn ?
           <div id="loginScreen">
-            <ModalEntry toggleLogin={this.toggleLogin}/>
+            <ModalEntry toggleLogin={this.toggleLogin} />
           </div> :
           <div id="userPage">
-          <Navbar />
-            <ModalQuiz userInfo={this.state.userInfo}/>
+            <Navbar />
+            <ModalQuiz userInfo={this.state.userInfo} />
             <div id="otherQuizzes">
               {this.state.otherUsers.map((user) => (
-                this.state.userInfo._id === user.quizMaker._id ? null : 
-                <FormOpenQuiz
-                  userId = {this.state.userInfo._id}
-                  quizMakerId = {user.quizMaker._id}
-                  quizId ={user._id}
-                  username={user.quizMaker.username}
-                  title={user.title}
-                  questions={user.questions}
-                />
+                this.state.userInfo._id === user.quizMaker._id ? null :
+                  <FormOpenQuiz
+                    userId={this.state.userInfo._id}
+                    quizMakerId={user.quizMaker._id}
+                    quizId={user._id}
+                    username={user.quizMaker.username}
+                    title={user.title}
+                    questions={user.questions}
+                  />
               ))}
             </div>
           </div>}
