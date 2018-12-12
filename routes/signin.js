@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const jwt=require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const authentication = require('../middleware/authentication');
 
 
@@ -15,16 +15,16 @@ module.exports = function (app) {
     app.get('/api/user/:id', authentication, function (req, res) {
         User.find({
             where: {
-                id:req.params.id
+                id: req.params.id
             }
-        }).then(resp=>{
+        }).then(resp => {
             res.json(resp)
-        }).catch(err=>{
+        }).catch(err => {
             res.json(err);
         })
     })
     //creating account
-    app.post('/api/user',function(req,res){
+    app.post('/api/user', function (req, res) {
         User.create({
             username: req.body.username,
             password: req.body.password,
@@ -32,14 +32,14 @@ module.exports = function (app) {
             lastName: req.body.lastName,
             email: req.body.email
         })
-        .then(success=>{
-            res.json(success)
-        }).catch(err=>{
-            res.status(500).json(err);
-        })
+            .then(success => {
+                res.json(success)
+            }).catch(err => {
+                res.status(500).json(err);
+            })
     })
     // hash through encrypted passwords
-    app.post('/login', function(req,res){
+    app.post('/login', function (req, res) {
         console.log(req.body, "this should be our user");
         User.findOne({
             where: {
@@ -52,7 +52,7 @@ module.exports = function (app) {
                 })
             } else {
 
-                console.log(user) 
+                console.log(user)
 
                 jwt.sign({
                     username: user.username,
@@ -72,7 +72,7 @@ module.exports = function (app) {
             res.json({ error: err });
         });
     });
-    };
+};
 
-    
+
 

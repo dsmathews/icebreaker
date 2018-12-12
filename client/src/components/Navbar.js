@@ -30,13 +30,16 @@ export default class Example extends React.Component {
   render() {
     return (
       <div>
-        <Navbar light expand="md">
-          <NavbarBrand href="#" className="navbar-title">ICE BREAKERS</NavbarBrand>
+        <Navbar expand="md">
+          <NavbarBrand ><b className="navbar-title">ICE BREAKERS</b></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink href="/ModalQuiz" className="logout-link">Log Out</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/ModalQuiz" className="logout-link">Contact</NavLink>
               </NavItem>
             </Nav>
           </Collapse>

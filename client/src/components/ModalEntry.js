@@ -68,8 +68,8 @@ class ModalEntry extends React.Component {
 
 	//function to change the background when user logs in
 	changeBackground = () => {
-		console.log("goodtimes") 
-		document.querySelector("#root").classList.add("black")	
+		console.log("goodtimes")
+		document.querySelector("#root").classList.add("black")
 	}
 
 	loginModal = () => {
@@ -103,12 +103,12 @@ class ModalEntry extends React.Component {
 					localStorage.setItem("token", resp.data.token)
 					localStorage.setItem('userId', resp.data.id)
 					axios.get(`/api/user/${resp.data.id}`)
-					.then(resp => {
-						console.log('User Info: ', resp.data[0])
-						this.props.toggleLogin(resp.data[0]);
-					})
+						.then(resp => {
+							console.log('User Info: ', resp.data[0])
+							this.props.toggleLogin(resp.data[0]);
+						})
 					//calling the background change here
-				this.changeBackground();
+					this.changeBackground();
 				})
 				.catch(err => {
 					alert("Email or Password is incorrect.")

@@ -236,7 +236,7 @@ class ModalQuiz extends React.Component {
 					{this.state.quizId ? <div>
 						<Button onClick={this.deleteQuiz} className="exterminate-btn">Exterminate Quiz!</Button>
 						<div>
-							<Button onClick={this.toggleView} className="checkit-btn">Check it</Button>
+							<Button onClick={this.toggleView} className="checkit-btn">Check out your quiz</Button>
 							<Modal isOpen={this.state.modal2} toggle={this.toggleView}>
 								<ModalBody className="view-quiz">
 									<h3 className="view-quiz-title">{this.state.title}</h3>
@@ -309,6 +309,11 @@ class ModalQuiz extends React.Component {
 						</ModalFooter>
 					</form>
 				</Modal>
+				<footer className="footer">
+					<div className="container-footer">
+						<span><b className="footer-text"> IceBreakers &copy; 2018</b></span>
+					</div>
+				</footer>
 			</div>
 
 		)
