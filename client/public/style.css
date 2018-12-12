@@ -39,7 +39,7 @@
 }
 /*Card in middle for the quizzes*/
 #otherQuizzes {
-	
+	padding:20px;
 	background: linear-gradient(to right, #fcf7f3, #97c3f0, #a4c6e1, #9daec4, #006b9e) ;;
 	margin-bottom: 5%;
    box-shadow: 8px 8px 12px rgb(108,117,125);
@@ -50,7 +50,7 @@
 	flex-direction:column;
 	align-items:center;
 	justify-content:center;
-	width:500px;
+	/* width:500px; */
 	height:800px;
 	opacity: .94;
 }
@@ -62,10 +62,14 @@
 	border-width:2px;
 	border-color:grey;
 	border-radius: 10px;
+	padding: 4px;
+	margin: 4.5px;
+	width: 400px;
 }
 /*navbar*/
 .navbar {
 	background-color: rgb(108,117,125);
+	width: 800px;
 }
 .navbar-title {
 	color: white;
@@ -109,25 +113,14 @@ width: 40%;
 }
 /*button to exterminate quiz*/
 .exterminate-btn {
-	position: relative;
-	margin: 6px;
-	position: relative;
-	margin: 20px;
-	/* width: 40%; */
-	width: 50%;
-	height: 40px;
-	left: 100px;
+	margin-left: 80px;
+	width: 40%;
 }
 /*button to check over quiz*/
 .checkit-btn {
-	position: relative;
-	margin: 6px;
-	position: relative;
 	margin: 20px;
-	/* width: 40%; */
-	width: 50%;
-	height: 40px;
-	left: 100px;
+	width: 40%;
+	
 }
 .exterminate-btn, .checkit-btn {
 	display:inline-block;
@@ -162,6 +155,7 @@ width: 40%;
 .container-footer {
 	position:relative;
 	bottom: -850px;
+	left: 150px;
 
 }
 .footer-text {
