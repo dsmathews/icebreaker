@@ -22,6 +22,7 @@ class App extends Component {
     loggedIn: false,
     userInfo: {},
     otherUsers: [],
+    chatOpen: false
   };
 
   constructor(props) {
@@ -52,6 +53,8 @@ class App extends Component {
     this.setState({
       loggedIn: !this.state.loggedIn,
       userInfo: id
+    }, function () {
+      this.createUser(this.state.userInfo.email);
     })
   }
 
@@ -87,46 +90,54 @@ class App extends Component {
     })
   }
 
+  toggleChat = () => {
+    this.setState({
+      chatOpen: !this.state.chatOpen
+    })
+  }
+
+  renderChat() {
+    if (this.state.currentView === "ChatMessage") {
+      return <ChatMessage changeView={this.changeView} />
+    } else if (this.state.currentView === "signup") {
+      return <Signup onSubmit={this.createUser} />
+    } else if (this.state.currentView === "chatApp") {
+      return <ChatApp currentId={this.state.currentId} />
+    }
+  }
 
   render() {
-
-    let view = '';
-
-    if (this.state.currentView === "ChatMessage") {
-      view = <ChatMessage changeView={this.changeView} />
-    } else if (this.state.currentView === "signup") {
-      view = <Signup onSubmit={this.createUser} />
-    } else if (this.state.currentView === "chatApp") {
-      view = <ChatApp currentId={this.state.currentId} />
-    }
 
     return (
 
       <div className="animated fadeIn">
-        {!this.state.loggedIn ?
+        {!this.state.loggedIn ? (
           <div id="loginScreen">
             <ModalEntry toggleLogin={this.toggleLogin} />
-          </div> :
-          <div id="userPage">
-          <Navbar />
-            <ModalQuiz userInfo={this.state.userInfo}/>
-            <div id="otherQuizzes">
-              {this.state.otherUsers.map((user) => (
-                this.state.userInfo._id === user.quizMaker._id ? null :
-                  <FormOpenQuiz
-                    userId={this.state.userInfo._id}
-                    quizMakerId={user.quizMaker._id}
-                    quizId={user._id}
-                    username={user.quizMaker.username}
-                    title={user.title}
-                    questions={user.questions}
-                  />
-              ))}
-              <div className="App">
-                {view}
+          </div>
+        ) : (
+            <div id="userPage">
+              <Navbar />
+              <ModalQuiz userInfo={this.state.userInfo} />
+              <div id="otherQuizzes">
+                {this.state.otherUsers.map((user) => (
+                  this.state.userInfo._id === user.quizMaker._id ? null :
+                    <FormOpenQuiz
+                      userId={this.state.userInfo._id}
+                      quizMakerId={user.quizMaker._id}
+                      quizId={user._id}
+                      username={user.quizMaker.username}
+                      title={user.title}
+                      questions={user.questions}
+                    />
+                ))}
+                <div className="App">
+                  {this.state.chatOpen && this.renderChat()}
+                  <button className="chat-button" onClick={this.toggleChat}>Chat</button>
+                </div>
               </div>
             </div>
-          </div>}
+          )}
       </div>
     )
   }

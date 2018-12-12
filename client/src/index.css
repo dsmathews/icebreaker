@@ -103,7 +103,7 @@ body {
 .chat-header  {
   padding: 20px;
   color: white;
-  opacity: 0.8;
+  opacity: 0.9;
   margin-top: 0;
   text-align: left;
   border-bottom: 1px solid grey;
@@ -118,7 +118,7 @@ body {
 .message-list  {
   list-style-type: none;
   background-color: white;
-  opacity: 0.8;
+  opacity: 0.9;
   padding: 0px 20px;
   max-height: calc(100vh - 150px);
   margin-top: -8px;
@@ -190,6 +190,13 @@ box-shadow: inset -24px -25px 67px -35px rgba(0,0,0,0.75);
 .link {
   text-decoration: none;
   color: blue;
+}
+.chat-button {
+  margin-bottom: 200px;
+  padding-bottom: 20px;
+  font-size: 30px;
+  background: rgb(66, 206, 66);
+  text-shadow: 2px 2px #000000;
 }
 li {
   overflow: auto scroll;
