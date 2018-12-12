@@ -59,12 +59,13 @@ class App extends Component {
   }
 
   getQuizTakers = () => {
-    axios.get(`/api/connection/${this.state.userInfo.quizId}/list`, {
+    axios.get(`/api/connection/${localStorage.getItem("userId")}`, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     })
       .then(resp => {
+        console.log('QuizTaker Response Data:', resp.data)
         this.setState({
           quizTakers: resp.data
         })
@@ -72,20 +73,16 @@ class App extends Component {
   }
 
   startUp = () => {
-    if (localStorage.getItem('userId')) {
+    if(localStorage.getItem('userId')) {
       this.setUserInfo();
       this.setQuizzes();
       this.setYourResults();
       this.getQuizTakers();
       this.setState({
-        loggedIn: true
+        loggedIn:true
       })
     }
   }
-
-  componentDidMount() {
-    // this.startUp();
-  };
 
   toggleLogin = (id) => {
     this.setState({
@@ -93,6 +90,10 @@ class App extends Component {
       userInfo: id
     })
   }
+
+  // componentDidMount() {
+  //   this.startUp();
+  // }
 
   render() {
     return (
@@ -114,7 +115,7 @@ class App extends Component {
             <div id="otherQuizzes">
               <h3>Quizzes To Take</h3>
               {this.state.otherQuizzes.map((user) => (
-                this.state.userInfo._id === user.quizMaker._id ? null :
+                localStorage.getItem('userId') === user.quizMaker._id ? null :
                   <FormOpenQuiz
                     setYourResults={this.setYourResults}
                     setQuizzes={this.setQuizzes}

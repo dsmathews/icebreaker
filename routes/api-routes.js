@@ -124,16 +124,6 @@ module.exports = function (app) {
             });
     })
 
-    app.get('/api/connection/:id/list', authWare, function (req, res) {
-        Connection.find({ quizId: req.params.id })
-            .populate('takerId')
-            .then(function (data) {
-                res.json(data);
-            }).catch(function (err) {
-                res.json(err);
-            })
-    })
-
     app.get('/api/connection', function (req, res) {
         Connection.find({})
             .populate('quizId')
@@ -145,8 +135,9 @@ module.exports = function (app) {
                 res.json(err);
             })
     })
-    app.get('/api/connection/:id', function (req, res) {
-        Connection.find({ _id: req.params.id })
+    app.get('/api/connection/:id', authWare, function (req, res) {
+        Connection.find({ makerId: req.params.id })
+        .populate('takerId')
             .then(function (data) {
                 res.json(data);
             })
