@@ -28,19 +28,20 @@ class App extends Component {
     chatOpen: false,
     otherQuizzes: [],
     connections: [],
-    quizTakers: []
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUsername: '',
+    quizTakers: [],
+    currentUsername: '',
       currentId: '',
       currentView: 'signup'
-    }
-    this.changeView = this.changeView.bind(this);
-    this.createUser = this.createUser.bind(this);
   };
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+      
+  //   }
+    // this.changeView = this.changeView.bind(this);
+    // this.createUser = this.createUser.bind(this);
+  // };
 
   setUserInfo = () => {
     axios.get(`/api/user/${localStorage.getItem('userId')}`, {
@@ -86,30 +87,30 @@ class App extends Component {
   }
 
   getQuizTakers = () => {
+    // if statement was here I think ()
     axios.get(`/api/connection/${localStorage.getItem("userId")}`, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     })
       .then(resp => {
-        console.log('QuizTaker Response Data:', resp.data)
         this.setState({
           quizTakers: resp.data
         })
       })
   }
 
-  // startUp = () => {
-  //   if (localStorage.getItem('userId')) {
-  //     this.setUserInfo();
-  //     this.setQuizzes();
-  //     this.setYourResults();
-  //     this.getQuizTakers();
-  //     this.setState({
-  //       loggedIn: true
-  //     })
-  //   }
-  // }
+  startUp = () => {
+    if (localStorage.getItem('userId')) {
+      this.setUserInfo();
+      this.setQuizzes();
+      this.setYourResults();
+      this.getQuizTakers();
+      this.setState({
+        loggedIn: true
+      })
+    }
+  }
 
   // componentDidMount() {
   //   this.startUp();
@@ -154,14 +155,7 @@ class App extends Component {
     })
   }
   
-  // componentDidMount() {
-  //   axios.get('/api/quiz')
-  //     .then(resp =>
-  //       this.setState({
-  //         otherUsers: resp.data
-  //       })
-  //     )
-  // };
+
 
   toggleLogin = (id) => {
     this.setState({
@@ -181,10 +175,6 @@ class App extends Component {
       return <ChatApp currentId={this.state.currentId} />
     }
   }
-
-  // componentDidMount() {
-  //   this.startUp();
-  // }
 
   render() {
     return (
@@ -217,7 +207,7 @@ class App extends Component {
               </Col>
             </Row>
               {this.state.otherQuizzes.map((user) => (
-                localStorage.getItem('userId') === user.quizMaker._id ? null :
+                this.state.userInfo._id === user.quizMaker._id ? null :
                   <FormOpenQuiz
                     setYourResults={this.setYourResults}
                     setQuizzes={this.setQuizzes}
