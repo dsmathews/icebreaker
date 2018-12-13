@@ -2,9 +2,10 @@ import React from 'react';
 
 const TakenQuiz = (props) => (
 	<div id="singleConnection">
-		<div>{props.makername}'s </div>
-		<div>{props.quizname} Quiz</div>
-		<div>{props.score}</div>
+		
+		<h3>{props.quizname} Quiz</h3>
+		<h6>Username:  {props.makername}'s </h6>
+		<h6>{props.score}</h6>
 	</div>
 )
 

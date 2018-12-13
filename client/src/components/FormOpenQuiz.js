@@ -3,7 +3,7 @@ import ModalTestTaker from './ModalTestTaker';
 
 const OpenQuiz = (props) => (
 	<div id="singleQuiz">
-		<span>{props.username}'s</span> <span>{props.title}</span>
+		<h3><span>{props.title}</span></h3><h6><span>Username: {props.username}'s</span></h6>
 		<ModalTestTaker
 			setYourResults = {props.setYourResults}
 			setQuizzes = {props.setQuizzes}

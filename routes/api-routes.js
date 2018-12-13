@@ -6,14 +6,14 @@ const authWare = require("../middleware/authentication");
 const ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = function (app) {
-    app.get('/api/user', function (req, res) {
+    app.get('/api/user', authWare, function (req, res) {
         User.find().then(function (data) {
             res.json(data);
         }).catch(function (err) {
             res.json(err);
         })
     })
-    app.get('/api/user/:id', function (req, res) {
+    app.get('/api/user/:id', authWare, function (req, res) {
         User.find({ _id: req.params.id })
             .then(function (data) {
                 res.json(data);
@@ -35,7 +35,7 @@ module.exports = function (app) {
             });
     });
 
-    app.post('/api/user', function (req, res) {
+    app.post('/api/user', authWare, function (req, res) {
         User.create(req.body)
             .then(function (data) {
                 res.json(data);
@@ -86,7 +86,7 @@ module.exports = function (app) {
                 res.status(500).json(err);
             })
     })
-    app.get('/api/quiz/:id', function (req, res) {
+    app.get('/api/quiz/:id', authWare, function (req, res) {
         Quiz.find({ _id: req.params.id })
             .then(function (data) {
                 res.json(data);
@@ -101,8 +101,16 @@ module.exports = function (app) {
             .then(function (data) {
                 return User.findOneAndUpdate({ _id: userId }, { quizId: '' })
             })
+            .then(function () {
+                return Connection.deleteMany({
+                    quizId: req.params.id
+                });
+            })
+            .then(function () {
+                res.json({ message: `Deleted quiz ${req.params.id}.` });
+            })
             .catch(function (err) {
-                res.json(err);
+                res.status(500).json(err);
             });
     });
     app.post('/api/connection', authWare, function (req, res) {
@@ -124,7 +132,9 @@ module.exports = function (app) {
             });
     })
 
+
     app.get('/api/connection', function (req, res) {
+
         Connection.find({})
             .populate('quizId')
             .populate('takerId')

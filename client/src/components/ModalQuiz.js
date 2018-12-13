@@ -1,6 +1,7 @@
 import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
-import { Button, Modal, ModalBody, ModalFooter, Alert, Row, Input } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, Alert, Input } from 'reactstrap';
 
 
 class ModalQuiz extends React.Component {
@@ -235,11 +236,18 @@ class ModalQuiz extends React.Component {
 
 	render() {
 		return (
+			<Container>
 			<div className="quizBackground">
-				<div>
-					{this.state.quizId ? <div>
+					{this.state.quizId ? 
+					<div>
+						<Row>
+							<Col>
 						<Button onClick={this.deleteQuiz} className="exterminate-btn">Exterminate Quiz!</Button>
+						</Col>
+						<Col>
 						<Button onClick={this.toggleView} className="checkit-btn">Check out your quiz</Button>
+						</Col>
+						</Row>
 						<div>
 							<Modal isOpen={this.state.modal2} toggle={this.toggleView}>
 								<ModalBody className="view-quiz">
@@ -261,7 +269,6 @@ class ModalQuiz extends React.Component {
 						<Button onClick={this.resumeCreating} className="continue-quiz-btn">Continue!</Button> : null}
 					{this.state.questions.length === 0 ?
 						<Button onClick={this.toggleModal} className="create-btn">Create Quiz!</Button> : null}
-				</div>
 				<Modal isOpen={this.state.modal} toggle={this.state.toggleModal}>
 					<form>
 						<ModalBody>
@@ -313,12 +320,8 @@ class ModalQuiz extends React.Component {
 						</ModalFooter>
 					</form>
 				</Modal>
-				<footer className="footer">
-					<div className="container-footer">
-						<span><b className="footer-text"> IceBreakers &copy; 2018</b></span>
-					</div>
-				</footer>
 			</div>
+			</Container>
 
 		)
 	}
