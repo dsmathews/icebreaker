@@ -132,17 +132,9 @@ module.exports = function (app) {
             });
     })
 
-    app.get('/api/connection/:id/list', authWare, function (req, res) {
-        Connection.find({ quizId: req.params.id })
-            .populate('takerId')
-            .then(function (data) {
-                res.json(data);
-            }).catch(function (err) {
-                res.json(err);
-            })
-    })
 
-    app.get('/api/connection', authWare, function (req, res) {
+    app.get('/api/connection', function (req, res) {
+
         Connection.find({})
             .populate('quizId')
             .populate('takerId')
@@ -154,7 +146,8 @@ module.exports = function (app) {
             })
     })
     app.get('/api/connection/:id', authWare, function (req, res) {
-        Connection.find({ _id: req.params.id })
+        Connection.find({ makerId: req.params.id })
+        .populate('takerId')
             .then(function (data) {
                 res.json(data);
             })
