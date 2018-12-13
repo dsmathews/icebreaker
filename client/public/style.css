@@ -12,8 +12,6 @@
 	align-items:center;
 	height:100%
 }
-#userPage {
-}
 /*home page header*/
 .home-header {
 	font-family: 'Unica One', cursive;
@@ -39,6 +37,15 @@
 	width:400px;
 	height:800px;
 }
+@keyframes color {
+	0%   { background: #6addd8; }
+	20%  { background: #7788ee; }
+	40%  { background: #221177; }
+	60%  { background: #9daec4; }
+	80%  { background: #2277aa; }
+	100% { background: #a4c6e1; }
+}
+
 /*Card in middle for the quizzes*/
 #otherQuizzes {
 	margin-top: 20px;
@@ -54,7 +61,7 @@
 
 /*navbar*/
 .navbar {
-	background-color: #e9e7f2;
+	background-color: white;
 }
 .navbar-title {
 	color: black;
@@ -65,24 +72,9 @@
 
 /*hover over logout */
 .logout-link:hover {
-	background-color:rgb(0,107,158);
+	background-color:rgb(148, 215, 247);
 	opacity: 0.8;
 }
-/* @keyframes color {
-	0%   { background: #7788ee; }
-	20%  { background: #1100bb; }
-	40%  { background: #a8f1f8; }
-	60%  { background: #221177; }
-	80%  { background: #6addd8; }
-	100% { background: #4422ee; }
-} */
-/*background image on users page*/
-/* .black{
-	background: #33CCCC; /* Fallback */
-	/* animation: color 16s infinite linear;
-	text-align: center;
-	padding: 2em;
-  } */ 
   .black {
 	background-image: url(./images/jeremy-bishop-256584-unsplash.jpg) !important;
 }
@@ -102,10 +94,6 @@ top: -265px;
 	width: 40%;
 	position: relative;
 	top: -265px;
-}
-/* button to create quiz*/
-.create-btn {
-
 }
 /*button to exterminate quiz*/
 .exterminate-btn {
@@ -173,7 +161,11 @@ top: -265px;
 	display:flex;
 	flex-direction:column;
 	align-items:center;
-	justify-content:center;
+    justify-content:center;
+    background: #33CCCC; /* Fallback */
+	animation: color 16s infinite linear;
+	text-align: center;
+	padding: 2em;
 }
 /*footer section*/
 .container-footer {
@@ -188,12 +180,12 @@ top: -265px;
 	width:300px;
 	padding: 5px;
 	margin: 5px;
-   background-color: rgba(233, 231, 242, .7);
+   background-color: #f8f9fabd;
    border-style:solid;
-   border-width:2px;
-   border-color:grey;
+   border-width:1px;
+   border-color:black;
    border-radius: 10px;
-   opacity: none;
+   text-align: center;
 }
 Button {
 background-color: white;
