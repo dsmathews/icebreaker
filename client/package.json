@@ -6,7 +6,7 @@
   "dependencies": {
     "@pusher/chatkit-client": "^1.2.1",
     "@pusher/chatkit-server": "^1.0.4",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
     "react-scripts": "2.1.1"
